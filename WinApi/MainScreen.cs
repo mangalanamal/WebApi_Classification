@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,5 +57,21 @@ namespace WinApi
         {
             Application.Exit();
         }
+
+        private void checkVoilationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openChildForm(new Form1());
+        }
+
+        private void scanLocalFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openChildForm(new ScanFiles());
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
     }
 }
