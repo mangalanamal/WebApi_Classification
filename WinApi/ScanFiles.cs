@@ -364,6 +364,7 @@ namespace WinApi
         {
             pictureBox.Visible = true;
             progressBar.Value = 0;
+            progressBar = new ProgressBar();
             if (!bgwApplyLable.IsBusy)
             {
                 bgwApplyLable.RunWorkerAsync();
@@ -602,19 +603,19 @@ namespace WinApi
 
         private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            progressBar.Value = e.ProgressPercentage;
+            progressBar.Value = e.ProgressPercentage;    
         }
 
         private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-           if (e.Error != null)
+            if (e.Error != null)
             {
                 MessageBox.Show("Error :" + e.Error.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 pictureBox.Visible = false;
             }
             else if (e.Result != null)
             {
-                string FilerLableId = cmbFilter.SelectedIndex > -1 ? cmbFilter.SelectedValue.ToString() : "";       
+                string FilerLableId = cmbFilter.SelectedIndex > -1 ? cmbFilter.SelectedValue.ToString() : "";
                 List<TableDetailsModel> tableDetails = (List<TableDetailsModel>)e.Result;
                 if (!string.IsNullOrEmpty(FilerLableId))
                 {
@@ -642,7 +643,6 @@ namespace WinApi
                 pictureBox.Visible = false;
             }
             //MessageBox.Show("Classification changed Successfully !!!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
         }
 
         private void bgwApplyLable_DoWork(object sender, DoWorkEventArgs e)
@@ -717,6 +717,7 @@ namespace WinApi
                             }
                             bgwApplyLable.ReportProgress(progress);
                             Thread.Sleep(100);
+                            
                         }
 
                         if (al.Count == progressBar.Value)
