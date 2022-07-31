@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -73,5 +74,14 @@ namespace WinApi
             Application.Exit();
         }
 
+        private void logToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string logDirectoryPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\Log";
+            if (!Directory.Exists(logDirectoryPath))
+            {
+                Directory.CreateDirectory(logDirectoryPath);
+            }
+            Process.Start(logDirectoryPath);
+        }
     }
 }
