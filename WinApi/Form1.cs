@@ -36,21 +36,21 @@ namespace WinApi
         //        {
         //            var reqObj = new RootRequest()
         //            {
-        //                Filters = new Filters()
+        //                filters = new Filters()
         //                {
-        //                    Policy = new Policy()
+        //                    policy = new Policy()
         //                    {
-        //                        Cabinetmatchedrulesequals = cabinetmatchedrulesequals.Split(new char[] { ',' }).ToList(),
+        //                        cabinetmatchedrulesequals = cabinetmatchedrulesequals.Split(new char[] { ',' }).ToList(),
         //                    },
         //                    OwnerEntity = new OwnerEntity()
         //                    {
-        //                        Eq = new List<Eq>()
+        //                        eq = new List<Eq>()
         //                    {
-        //                        new Eq() { Id=ownerId,Inst=0,Saas=11161 }
+        //                        new Eq() { id=ownerId,inst=0,saas=11161 }
         //                    }
         //                    }
         //                },
-        //                Skip = 0
+        //                skip = 0
         //            };
 
         //            var jsonContent = new StringContent(JsonConvert.SerializeObject(reqObj), Encoding.UTF8, "application/json");
@@ -65,18 +65,18 @@ namespace WinApi
 
         //            var jsonResult = result.Content.ReadAsStringAsync().Result;
         //            var response = JsonConvert.DeserializeObject<RootResponse>(jsonResult);
-        //            if (response.Data.Count > 0)
+        //            if (response.data.Count > 0)
         //            {
         //                progressBar.Value = 0;
         //                progressBar.Minimum = 0;
-        //                progressBar.Maximum = response.Data.Count;
+        //                progressBar.Maximum = response.data.Count;
 
-        //                response.Data.ForEach(i =>
+        //                response.data.ForEach(i =>
         //                {
-        //                    i.CreatedDate = (new DateTime(1970, 1, 1)).AddMilliseconds(long.Parse(i.CreatedDate)).ToString();
+        //                    i.createdDate = (new DateTime(1970, 1, 1)).AddMilliseconds(long.Parse(i.createdDate)).ToString();
         //                    progressBar.Value += 1;
         //                });
-        //                dataGridView1.DataSource = response.Data.ToList();
+        //                dataGridView1.DataSource = response.data.ToList();
         //                dataGridView1.AutoResizeColumns(
         //           DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
         //            }
@@ -130,88 +130,58 @@ namespace WinApi
                 {
                     var reqObj = new RootRequest()
                     {
-                        Filters = new Filters()
+                       filters = new Filters()
                         {
-                            Policy = new Policy()
+                            policy = new Policy()
                             {
-                                Cabinetmatchedrulesequals = cabinetmatchedrulesequals.Split(new char[] { ',' }).ToList(),
+                                cabinetmatchedrulesequals = cabinetmatchedrulesequals.Split(new char[] { ',' }).ToList(),
                             },
                             OwnerEntity = new OwnerEntity()
                             {
-                                Eq = new List<Eq>()
+                                eq = new List<Eq>()
                             {
-                                new Eq() { Id=ownerId,Inst=0,Saas=11161 }
+                                new Eq() { id=ownerId,inst=0,saas=11161 }
                             }
                             }
                         },
-                        Skip = 0
+                        skip = 0
                     };
 
-                    //var jsonContent = new StringContent(JsonConvert.SerializeObject(reqObj), Encoding.UTF8, "application/json");
+                    var jsonContent = new StringContent(JsonConvert.SerializeObject(reqObj), Encoding.UTF8, "application/json");
 
-                    //client.DefaultRequestHeaders.Add("Authorization", $"Token {token}");
+                    client.DefaultRequestHeaders.Add("Authorization", $"Token {token}");
 
-                    //var result = client.PostAsync("https://diamondsg.us.portal.cloudappsecurity.com/api/v1/files/", jsonContent).Result;
-                    //if (!result.IsSuccessStatusCode)
-                    //{
-                    //    throw new ArgumentException("something bad happended");
-                    //}
-
-                    //var jsonResult = result.Content.ReadAsStringAsync().Result;
-                    //var response = JsonConvert.DeserializeObject<RootResponse>(jsonResult);
-
-                    var data = JsonConvert.SerializeObject(reqObj); // Object Model Convert to JSON
-                    var url = "https://diamondsg.us.portal.cloudappsecurity.com/api/v1/files/";// url
-                    var httpRequest = (HttpWebRequest)WebRequest.Create(url);
-                    httpRequest.Method = "POST";
-                    httpRequest.Accept = "application/json";
-                    httpRequest.Headers["Authorization"] = $"Token { token}"; //authorization
-                    httpRequest.ContentType = "application/json";
-                    using (var streamWriter = new StreamWriter(httpRequest.GetRequestStream()))
+                    var result = client.PostAsync("https://diamondsg.us.portal.cloudappsecurity.com/api/v1/files/", jsonContent).Result;
+                    if (!result.IsSuccessStatusCode)
                     {
-                        streamWriter.Write(data);
-                    }
-                    var httpResponse = (HttpWebResponse)httpRequest.GetResponse(); //check response
-                    if (httpResponse.StatusCode == HttpStatusCode.OK)
-                    {
-                        using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-                        {
-                            var result = streamReader.ReadToEnd();
-                            if (!string.IsNullOrEmpty(result))
-                            {
-                                RootResponse obj = JsonConvert.DeserializeObject<RootResponse>(result); //repones JSON
-                                //var dataList = JsonConvert.SerializeObject(obj.Data);
-                                e.Result = obj.Data;
-                            }
-                            else
-                            {
-                                MessageBox.Show("Data is Empty.");
-                            }
-                        }
+                        throw new ArgumentException("something bad happended");
                     }
 
-                    // if (response.data.Count > 0)
-                    // {
-                    //     progressBar.Value = 0;
-                    //     //progressBar.Minimum = 0;
-                    //     //progressBar.Maximum = response.data.Count;
+                    var jsonResult = result.Content.ReadAsStringAsync().Result;
+                    var response = JsonConvert.DeserializeObject<RootResponse>(jsonResult);
+                    if (response.data.Count > 0)
+                    {
+                        progressBar.Value = 0;
+                        //progressBar.Minimum = 0;
+                        //progressBar.Maximum = response.data.Count;
 
-                    //     e.Result = response.data;
+                        e.Result = response.data;
 
-                    ////     response.data.ForEach(i =>
-                    ////     {
-                    ////         i.createdDate = (new DateTime(1970, 1, 1)).AddMilliseconds(long.Parse(i.createdDate)).ToString();
-                    ////         progressBar.Value += 1;
-                    ////     });
-                    ////     dataGridView1.DataSource = response.data.ToList();
-                    ////     dataGridView1.AutoResizeColumns(
-                    ////DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
-                    // }
-                    // else
-                    // {
-                    //     MessageBox.Show("Data is Empty.");
-                    // }
+                        //     response.data.ForEach(i =>
+                        //     {
+                        //         i.createdDate = (new DateTime(1970, 1, 1)).AddMilliseconds(long.Parse(i.createdDate)).ToString();
+                        //         progressBar.Value += 1;
+                        //     });
+                        //     dataGridView1.DataSource = response.data.ToList();
+                        //     dataGridView1.AutoResizeColumns(
+                        //DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Data is Empty.");
+                    }
                 }
+
             }
             catch (Exception ex)
             {
@@ -222,6 +192,7 @@ namespace WinApi
                     backgroundWorker.CancelAsync();
                 }
             }
+
         }
 
         private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -243,15 +214,17 @@ namespace WinApi
                 pictureBox.Visible = false;
                 response.ForEach(i =>
                 {
-                    if (i.CreatedDate != null)
-                    {
-                    i.CreatedDate = (new DateTime(1970, 1, 1)).AddMilliseconds(long.Parse(i.CreatedDate)).ToString();
-                    }
+                    i.createdDate = (new DateTime(1970, 1, 1)).AddMilliseconds(long.Parse(i.createdDate)).ToString();
                     progressBar.Value += 1;
                     Thread.Sleep(100);
                 });
                 dataGridView1.DataSource = response.ToList();
                 dataGridView1.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
+
+            }
+            else
+            {
+                pictureBox.Visible = false;
             }
         }
 
