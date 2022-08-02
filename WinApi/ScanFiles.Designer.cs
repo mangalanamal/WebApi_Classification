@@ -46,7 +46,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.btnOutputFolder = new System.Windows.Forms.Button();
-            this.btnCSV = new System.Windows.Forms.Button();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.bgwApplyLable = new System.ComponentModel.BackgroundWorker();
@@ -69,6 +68,7 @@
             this.cmbFilter.Name = "cmbFilter";
             this.cmbFilter.Size = new System.Drawing.Size(359, 21);
             this.cmbFilter.TabIndex = 0;
+            this.cmbFilter.SelectedIndexChanged += new System.EventHandler(this.cmbFilter_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -85,7 +85,7 @@
             // 
             this.btnApplyLable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnApplyLable.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnApplyLable.Location = new System.Drawing.Point(823, 447);
+            this.btnApplyLable.Location = new System.Drawing.Point(907, 447);
             this.btnApplyLable.Name = "btnApplyLable";
             this.btnApplyLable.Size = new System.Drawing.Size(82, 23);
             this.btnApplyLable.TabIndex = 3;
@@ -230,18 +230,6 @@
             this.btnOutputFolder.UseVisualStyleBackColor = true;
             this.btnOutputFolder.Click += new System.EventHandler(this.btnOutputFolder_Click);
             // 
-            // btnCSV
-            // 
-            this.btnCSV.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCSV.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCSV.Location = new System.Drawing.Point(909, 447);
-            this.btnCSV.Name = "btnCSV";
-            this.btnCSV.Size = new System.Drawing.Size(82, 23);
-            this.btnCSV.TabIndex = 14;
-            this.btnCSV.Text = "CSV";
-            this.btnCSV.UseVisualStyleBackColor = true;
-            this.btnCSV.Click += new System.EventHandler(this.btnCSV_Click);
-            // 
             // pictureBox
             // 
             this.pictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -289,7 +277,6 @@
             this.ClientSize = new System.Drawing.Size(1089, 482);
             this.Controls.Add(this.Clear);
             this.Controls.Add(this.pictureBox);
-            this.Controls.Add(this.btnCSV);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.btnOutputFolder);
@@ -333,7 +320,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn LableId;
-        private System.Windows.Forms.Button btnCSV;
         private System.Windows.Forms.PictureBox pictureBox;
         private System.ComponentModel.BackgroundWorker backgroundWorker;
         private System.ComponentModel.BackgroundWorker bgwApplyLable;

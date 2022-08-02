@@ -21,6 +21,7 @@ namespace WinApi
         private static readonly string appName = ConfigurationManager.AppSettings["app:Name"];
         private static readonly string appVersion = ConfigurationManager.AppSettings["app:Version"];
         CheckBox headerCheckBox = new CheckBox();
+        List<TableDetailsModel> TableDetails = new List<TableDetailsModel>();
         ApplicationInfo appInfo = new ApplicationInfo()
         {
             // ApplicationId should ideally be set to the same ClientId found in the Azure AD App Registration.
@@ -179,6 +180,7 @@ namespace WinApi
 
         private void btnScan_Click(object sender, EventArgs e)
         {
+            cmbFilter.Enabled = false;
             if (!string.IsNullOrEmpty(label3.Text) && !string.IsNullOrEmpty(label4.Text))
             {
                 pictureBox.Visible = true;
@@ -195,6 +197,7 @@ namespace WinApi
                 MessageBox.Show("Please select files input folder path and files output folder path.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
             }
+            
         }
 
         //private void Scan()
@@ -364,6 +367,7 @@ namespace WinApi
         {
             pictureBox.Visible = true;
             progressBar.Value = 0;
+            progressBar = new ProgressBar();
             if (!bgwApplyLable.IsBusy)
             {
                 bgwApplyLable.RunWorkerAsync();
@@ -455,83 +459,83 @@ namespace WinApi
         //    }
         //}
 
-        private void btnCSV_Click(object sender, EventArgs e)
-        {
-            if (dataGridView1.Rows.Count > 0)
-            {
-                SaveFileDialog sfd = new SaveFileDialog();
-                sfd.Filter = "CSV (*.csv)|*.csv";
-                sfd.FileName = "ClassificationDetails.csv";
-                bool fileError = false;
-                if (sfd.ShowDialog() == DialogResult.OK)
-                {
-                    if (File.Exists(sfd.FileName))
-                    {
-                        try
-                        {
-                            File.Delete(sfd.FileName);
-                        }
-                        catch (IOException ex)
-                        {
-                            fileError = true;
-                            MessageBox.Show("It wasn't possible to write the data to the disk." + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                    }
-                    if (!fileError)
-                    {
-                        try
-                        {
-                            int columnCount = dataGridView1.Columns.Count+1;
-                            string columnNames = "";
-                            string[] outputCsv = new string[dataGridView1.Rows.Count + 1];
-                            //for (int i = 1; i < columnCount; i++)
-                            //{
-                            //    columnNames += dataGridView1.Columns[i].HeaderText.ToString() + ",";
-                            //}
+        //private void btnCSV_Click(object sender, EventArgs e)
+        //{
+        //    if (dataGridView1.Rows.Count > 0)
+        //    {
+        //        SaveFileDialog sfd = new SaveFileDialog();
+        //        sfd.Filter = "CSV (*.csv)|*.csv";
+        //        sfd.FileName = "ClassificationDetails.csv";
+        //        bool fileError = false;
+        //        if (sfd.ShowDialog() == DialogResult.OK)
+        //        {
+        //            if (File.Exists(sfd.FileName))
+        //            {
+        //                try
+        //                {
+        //                    File.Delete(sfd.FileName);
+        //                }
+        //                catch (IOException ex)
+        //                {
+        //                    fileError = true;
+        //                    MessageBox.Show("It wasn't possible to write the data to the disk." + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //                }
+        //            }
+        //            if (!fileError)
+        //            {
+        //                try
+        //                {
+        //                    int columnCount = dataGridView1.Columns.Count+1;
+        //                    string columnNames = "";
+        //                    string[] outputCsv = new string[dataGridView1.Rows.Count + 1];
+        //                    //for (int i = 1; i < columnCount; i++)
+        //                    //{
+        //                    //    columnNames += dataGridView1.Columns[i].HeaderText.ToString() + ",";
+        //                    //}
 
-                            columnNames += "File Name" + ",";
-                            columnNames += "File Path " + ",";
-                            columnNames += "Classification" + ",";
-                            columnNames += "Lable ID" + ",";
-                            columnNames += "Reclassification" + ",";
-                            columnNames += "Reclassification ID" + ",";
-                            outputCsv[0] += columnNames;
+        //                    columnNames += "File Name" + ",";
+        //                    columnNames += "File Path " + ",";
+        //                    columnNames += "Classification" + ",";
+        //                    columnNames += "Lable ID" + ",";
+        //                    columnNames += "Reclassification" + ",";
+        //                    columnNames += "Reclassification ID" + ",";
+        //                    outputCsv[0] += columnNames;
 
-                            for (int i = 1; (i - 1) < dataGridView1.Rows.Count; i++)
-                            {
-                                for (int j = 0; j < columnCount; j++)
-                                {                                   
-                                    if (j == 5) 
-                                    { 
-                                        outputCsv[i] += (dataGridView1.Rows[i - 1].Cells[5] as DataGridViewComboBoxCell).FormattedValue.ToString() + ",";
-                                    }
-                                    else if (j == 6)
-                                    {
-                                        outputCsv[i] += dataGridView1.Rows[i - 1].Cells[5].Value.ToString() + ",";
+        //                    for (int i = 1; (i - 1) < dataGridView1.Rows.Count; i++)
+        //                    {
+        //                        for (int j = 0; j < columnCount; j++)
+        //                        {                                   
+        //                            if (j == 5) 
+        //                            { 
+        //                                outputCsv[i] += (dataGridView1.Rows[i - 1].Cells[5] as DataGridViewComboBoxCell).FormattedValue.ToString() + ",";
+        //                            }
+        //                            else if (j == 6)
+        //                            {
+        //                                outputCsv[i] += dataGridView1.Rows[i - 1].Cells[5].Value.ToString() + ",";
 
-                                    }
-                                    else
-                                    {
-                                        outputCsv[i] += dataGridView1.Rows[i - 1].Cells[j].Value.ToString() + ",";
-                                    }
-                                }
-                            }
+        //                            }
+        //                            else
+        //                            {
+        //                                outputCsv[i] += dataGridView1.Rows[i - 1].Cells[j].Value.ToString() + ",";
+        //                            }
+        //                        }
+        //                    }
 
-                            File.WriteAllLines(sfd.FileName, outputCsv, Encoding.UTF8);
-                            MessageBox.Show("Data Exported Successfully !!!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("Error :" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                MessageBox.Show("No Record To Export !!!", "Information", MessageBoxButtons.OK,MessageBoxIcon.Information);
-            }
-        }
+        //                    File.WriteAllLines(sfd.FileName, outputCsv, Encoding.UTF8);
+        //                    MessageBox.Show("Data Exported Successfully !!!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //                }
+        //                catch (Exception ex)
+        //                {
+        //                    MessageBox.Show("Error :" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //                }
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show("No Record To Export !!!", "Information", MessageBoxButtons.OK,MessageBoxIcon.Information);
+        //    }
+        //}
 
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -544,7 +548,7 @@ namespace WinApi
                     //pictureBox.Visible = true;
                     List<string> dirs = GetDirectories(label3.Text);
                     dirs.Add(label3.Text);
-                    List<TableDetailsModel> tableDetails = new List<TableDetailsModel>();
+                    TableDetails = new List<TableDetailsModel>();
                     // Initialize Action class, passing in AppInfo.
                     Action action = new Action(appInfo);
                     List<FileModel> files = GetFiles(dirs);
@@ -575,15 +579,15 @@ namespace WinApi
                                     Classification = classificationDetails.Where(x => x.Id == LableId).FirstOrDefault().Name,
                                     ID = LableId
                                 };
-                                tableDetails.Add(obj);
+                                TableDetails.Add(obj);
                             }
 
 
                         }
 
-                        if (tableDetails.Count > 0)
+                        if (TableDetails.Count > 0)
                         {                            
-                            e.Result = tableDetails;
+                            e.Result = TableDetails;
                         }
                     }
                 }
@@ -602,19 +606,19 @@ namespace WinApi
 
         private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            progressBar.Value = e.ProgressPercentage;
+            progressBar.Value = e.ProgressPercentage;    
         }
 
         private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-           if (e.Error != null)
+            if (e.Error != null)
             {
                 MessageBox.Show("Error :" + e.Error.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 pictureBox.Visible = false;
             }
             else if (e.Result != null)
             {
-                string FilerLableId = cmbFilter.SelectedIndex > -1 ? cmbFilter.SelectedValue.ToString() : "";       
+                string FilerLableId = cmbFilter.SelectedIndex > -1 ? cmbFilter.SelectedValue.ToString() : "";
                 List<TableDetailsModel> tableDetails = (List<TableDetailsModel>)e.Result;
                 if (!string.IsNullOrEmpty(FilerLableId))
                 {
@@ -641,8 +645,8 @@ namespace WinApi
             {
                 pictureBox.Visible = false;
             }
+            cmbFilter.Enabled = true;
             //MessageBox.Show("Classification changed Successfully !!!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
         }
 
         private void bgwApplyLable_DoWork(object sender, DoWorkEventArgs e)
@@ -717,6 +721,7 @@ namespace WinApi
                             }
                             bgwApplyLable.ReportProgress(progress);
                             Thread.Sleep(100);
+                            
                         }
 
                         if (al.Count == progressBar.Value)
@@ -757,6 +762,10 @@ namespace WinApi
             {
                 pictureBox.Visible = false;
                 MessageBox.Show(e.Result.ToString(), "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                pictureBox.Visible = false;
             }
         }
 
@@ -816,6 +825,55 @@ namespace WinApi
                     }
                 }
                 File.WriteAllLines(fileName, outputCsv, Encoding.UTF8);
+            }
+        }
+
+        private void cmbFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (TableDetails.Count > 0)
+            {
+                string FilerLableId = cmbFilter.SelectedIndex > -1 ? cmbFilter.SelectedValue.ToString() : "";
+                if (!string.IsNullOrEmpty(FilerLableId))
+                {
+                    dataGridView1.Rows.Clear();
+                    List<TableDetailsModel> td = TableDetails.Where(x => x.ID == FilerLableId).ToList();
+                    progressBar.Value = 0;
+                    progressBar.Minimum = 0;
+                    progressBar.Maximum = td.Count;
+                    pictureBox.Visible = false;
+                    foreach (var r in td)
+                    {
+                        progressBar.Value += 1;
+                        Thread.Sleep(100);
+                        dataGridView1.Rows.Add(
+                            r.FileName,
+                            r.FilePath,
+                            r.Classification,
+                            r.ID
+                            );
+
+                    }
+                }
+                else
+                {
+                    dataGridView1.Rows.Clear();
+                    progressBar.Value = 0;
+                    progressBar.Minimum = 0;
+                    progressBar.Maximum = TableDetails.Count;
+                    pictureBox.Visible = false;
+                    foreach (var r in TableDetails)
+                    {
+                        progressBar.Value += 1;
+                        Thread.Sleep(100);
+                        dataGridView1.Rows.Add(
+                            r.FileName,
+                            r.FilePath,
+                            r.Classification,
+                            r.ID
+                            );
+
+                    }
+                }
             }
         }
     }
