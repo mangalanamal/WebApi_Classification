@@ -56,7 +56,9 @@ namespace WinApi
         public string alternateLink { get; set; }
         public string createdDate { get; set; }
         public string filePath { get; set; }
+        public string[] fTags { get; set; }
     }
+
 }
 
 

@@ -102,5 +102,10 @@ namespace WinApi
                 MessageBox.Show(other.Message);
             }
         }
+
+        private void testLoginToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openChildForm(new frmLogin());
+        }
     }
 }
