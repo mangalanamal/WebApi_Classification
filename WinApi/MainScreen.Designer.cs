@@ -32,6 +32,9 @@
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loginAreaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.singInToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.signOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkVoilationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scanLocalFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,7 +42,6 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.testLoginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,6 +59,7 @@
             this.menuStrip.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
+            this.loginAreaToolStripMenuItem,
             this.checkVoilationToolStripMenuItem,
             this.scanLocalFilesToolStripMenuItem,
             this.toolsToolStripMenuItem,
@@ -82,6 +85,29 @@
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
+            // loginAreaToolStripMenuItem
+            // 
+            this.loginAreaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.singInToolStripMenuItem,
+            this.signOutToolStripMenuItem});
+            this.loginAreaToolStripMenuItem.Name = "loginAreaToolStripMenuItem";
+            this.loginAreaToolStripMenuItem.Size = new System.Drawing.Size(78, 20);
+            this.loginAreaToolStripMenuItem.Text = "User Login";
+            // 
+            // singInToolStripMenuItem
+            // 
+            this.singInToolStripMenuItem.Name = "singInToolStripMenuItem";
+            this.singInToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.singInToolStripMenuItem.Text = "Sign in";
+            this.singInToolStripMenuItem.Click += new System.EventHandler(this.singInToolStripMenuItem_Click);
+            // 
+            // signOutToolStripMenuItem
+            // 
+            this.signOutToolStripMenuItem.Name = "signOutToolStripMenuItem";
+            this.signOutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.signOutToolStripMenuItem.Text = "Sign Out";
+            this.signOutToolStripMenuItem.Click += new System.EventHandler(this.signOutToolStripMenuItem_Click);
+            // 
             // checkVoilationToolStripMenuItem
             // 
             this.checkVoilationToolStripMenuItem.Name = "checkVoilationToolStripMenuItem";
@@ -99,8 +125,7 @@
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.logToolStripMenuItem,
-            this.testLoginToolStripMenuItem});
+            this.logToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
@@ -108,7 +133,7 @@
             // logToolStripMenuItem
             // 
             this.logToolStripMenuItem.Name = "logToolStripMenuItem";
-            this.logToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.logToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.logToolStripMenuItem.Text = "Log Directory";
             this.logToolStripMenuItem.Click += new System.EventHandler(this.logToolStripMenuItem_Click);
             // 
@@ -130,13 +155,6 @@
             // openFileDialog
             // 
             this.openFileDialog.FileName = "openFileDialog";
-            // 
-            // testLoginToolStripMenuItem
-            // 
-            this.testLoginToolStripMenuItem.Name = "testLoginToolStripMenuItem";
-            this.testLoginToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.testLoginToolStripMenuItem.Text = "Test Login";
-            this.testLoginToolStripMenuItem.Click += new System.EventHandler(this.testLoginToolStripMenuItem_Click);
             // 
             // MainScreen
             // 
@@ -170,6 +188,8 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem logToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem testLoginToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loginAreaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem singInToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem signOutToolStripMenuItem;
     }
 }
