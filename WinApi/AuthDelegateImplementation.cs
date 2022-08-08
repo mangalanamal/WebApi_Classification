@@ -44,11 +44,6 @@ namespace WinApi
         private static readonly string certThumb = ConfigurationManager.AppSettings["ida:CertThumbprint"];
         private static readonly bool doCertAuth = Convert.ToBoolean(ConfigurationManager.AppSettings["ida:DoCertAuth"]);
         private static readonly string clientSecret = ConfigurationManager.AppSettings["ida:ClientSecret"];
-
-
-        // Fetch tenant name from app.config
-        // We use the tenant ID to append to the authority, as we need this as a hint to find the correct tenant.
-        // Using the common endpoint without tenant throws an exception. 
         private static readonly string tenant = ConfigurationManager.AppSettings["ida:Tenant"];
 
         private ApplicationInfo appInfo;        
@@ -59,18 +54,6 @@ namespace WinApi
             this.appInfo = appInfo;
         }
 
-        /// <summary>
-        /// AcquireToken is called by the SDK when auth is required for an operation. 
-        /// Adding or loading an IFileEngine is typically where this will occur first.
-        /// The SDK provides all three parameters below.Identity from the EngineSettings.
-        /// Authority and resource are provided from the 401 challenge.
-        /// The SDK cares only that an OAuth2 token is returned.How it's fetched isn't important.
-        /// In this sample, we fetch the token using Active Directory Authentication Library(ADAL).
-        /// </summary>
-        /// <param name="identity"></param>
-        /// <param name="authority"></param>
-        /// <param name="resource"></param>
-        /// <returns>The OAuth2 token for the user</returns>
         public string AcquireToken(Identity identity, string authority, string resource, string claim)
         {
             // Append tenant to authority and remove common. 
@@ -94,15 +77,13 @@ namespace WinApi
                 .WithRedirectUri(redirectUri)
                 .Build();
             }
-
             else
             {
                 Console.WriteLine("Performing client secret based auth.");
                 app = ConfidentialClientApplicationBuilder.Create(appInfo.ApplicationId)
                 .WithClientSecret(clientSecret)
                 .WithRedirectUri(redirectUri)
-                .Build();
-                
+                .Build();                
             }
             
             string[] scopes = new string[] { resource[resource.Length - 1].Equals('/') ? $"{resource}.default" : $"{resource}/.default" };

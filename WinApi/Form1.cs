@@ -22,96 +22,36 @@ namespace WinApi
     public partial class Form1 : Form
     {
         List<ClassificationDetailsModel> cd = new List<ClassificationDetailsModel>();
+        List<OwnerDetailsModel> owner = new List<OwnerDetailsModel>();
 
-        public Form1()
+        public Form1(List<OwnerDetailsModel> ownerDetail)
         {
+            owner = ownerDetail;
             InitializeComponent();       
         }
-
-        //private void GetRecord()
-        //{
-        //    try
-        //    {
-        //        string token = ConfigurationManager.AppSettings["AuthToken"],
-        //               ownerId = ConfigurationManager.AppSettings["OwnerId"],
-        //               cabinetmatchedrulesequals = ConfigurationManager.AppSettings["cabinetmatchedrulesequals"];
-        //        using (var client = new HttpClient())
-        //        {
-        //            var reqObj = new RootRequest()
-        //            {
-        //                filters = new Filters()
-        //                {
-        //                    policy = new Policy()
-        //                    {
-        //                        cabinetmatchedrulesequals = cabinetmatchedrulesequals.Split(new char[] { ',' }).ToList(),
-        //                    },
-        //                    OwnerEntity = new OwnerEntity()
-        //                    {
-        //                        eq = new List<Eq>()
-        //                    {
-        //                        new Eq() { id=ownerId,inst=0,saas=11161 }
-        //                    }
-        //                    }
-        //                },
-        //                skip = 0
-        //            };
-
-        //            var jsonContent = new StringContent(JsonConvert.SerializeObject(reqObj), Encoding.UTF8, "application/json");
-
-        //            client.DefaultRequestHeaders.Add("Authorization", $"Token {token}");
-
-        //            var result = client.PostAsync("https://diamondsg.us.portal.cloudappsecurity.com/api/v1/files/", jsonContent).Result;
-        //            if (!result.IsSuccessStatusCode)
-        //            {
-        //                throw new ArgumentException("something bad happended");
-        //            }
-
-        //            var jsonResult = result.Content.ReadAsStringAsync().Result;
-        //            var response = JsonConvert.DeserializeObject<RootResponse>(jsonResult);
-        //            if (response.data.Count > 0)
-        //            {
-        //                progressBar.Value = 0;
-        //                progressBar.Minimum = 0;
-        //                progressBar.Maximum = response.data.Count;
-
-        //                response.data.ForEach(i =>
-        //                {
-        //                    i.createdDate = (new DateTime(1970, 1, 1)).AddMilliseconds(long.Parse(i.createdDate)).ToString();
-        //                    progressBar.Value += 1;
-        //                });
-        //                dataGridView1.DataSource = response.data.ToList();
-        //                dataGridView1.AutoResizeColumns(
-        //           DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
-        //            }
-        //            else
-        //            {
-        //                MessageBox.Show("Data is Empty.");
-        //            }
-        //        }
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show("Error :" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //    }
-        //}
         private void Form1_Load(object sender, EventArgs e)
         {
-            FillClassificationList();
-            pictureBox.Visible = true;
-            progressBar.Value = 0;
-            if (dataGridView1.Rows.Count > 0)
+            if (owner.Count > 0)
             {
-                dataGridView1.DataSource = null;
-            }
+                FillClassificationList();
+                pictureBox.Visible = true;
+                progressBar.Value = 0;
+                if (dataGridView1.Rows.Count > 0)
+                {
+                    dataGridView1.DataSource = null;
+                }
 
-            if (!backgroundWorker.IsBusy)
+                if (!backgroundWorker.IsBusy)
+                {
+                    // This method will start the execution asynchronously in the background
+                    backgroundWorker.RunWorkerAsync();
+                }
+            }
+            else
             {
-                // This method will start the execution asynchronously in the background
-                backgroundWorker.RunWorkerAsync();
+                MessageBox.Show("Please login before accessing this form", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-
         private void FillClassificationList()
         {
             cd = new List<ClassificationDetailsModel>
@@ -135,106 +75,100 @@ namespace WinApi
 
             };
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close(); 
         }
-
         private void Clear_Click(object sender, EventArgs e)
         {
             dataGridView1.DataSource = null;
             progressBar.Value = 0;
         }
-
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             try
             {
-                string token = ConfigurationManager.AppSettings["AuthToken"],
-                       ownerId = ConfigurationManager.AppSettings["OwnerId"],
-                       cabinetmatchedrulesequals = ConfigurationManager.AppSettings["cabinetmatchedrulesequals"];
-                using (var client = new HttpClient())
-                {
-                    var reqObj = new RootRequest()
+                    string token = ConfigurationManager.AppSettings["AuthToken"],
+                           ownerId = owner[0].Id,
+                           cabinetmatchedrulesequals = ConfigurationManager.AppSettings["cabinetmatchedrulesequals"];
+                    using (var client = new HttpClient())
                     {
-                       filters = new Filters()
+                        var reqObj = new RootRequest()
                         {
-                            policy = new Policy()
+                            filters = new Filters()
                             {
-                                cabinetmatchedrulesequals = cabinetmatchedrulesequals.Split(new char[] { ',' }).ToList(),
-                            },
-                            OwnerEntity = new OwnerEntity()
-                            {
-                                eq = new List<Eq>()
+                                policy = new Policy()
+                                {
+                                    cabinetmatchedrulesequals = cabinetmatchedrulesequals.Split(new char[] { ',' }).ToList(),
+                                },
+                                OwnerEntity = new OwnerEntity()
+                                {
+                                    eq = new List<Eq>()
                             {
                                 new Eq() { id=ownerId,inst=0,saas=11161 }
                             }
-                            }
-                        },
-                        skip = 0
-                    };
+                                }
+                            },
+                            skip = 0
+                        };
 
-                    var jsonContent = new StringContent(JsonConvert.SerializeObject(reqObj), Encoding.UTF8, "application/json");
+                        var jsonContent = new StringContent(JsonConvert.SerializeObject(reqObj), Encoding.UTF8, "application/json");
 
-                    client.DefaultRequestHeaders.Add("Authorization", $"Token {token}");
+                        client.DefaultRequestHeaders.Add("Authorization", $"Token {token}");
 
-                    var result = client.PostAsync("https://diamondsg.us.portal.cloudappsecurity.com/api/v1/files/", jsonContent).Result;
-                    if (!result.IsSuccessStatusCode)
-                    {
-                        throw new ArgumentException("something bad happended");
-                    }
-
-                    var jsonResult = result.Content.ReadAsStringAsync().Result;
-                    var response = JsonConvert.DeserializeObject<RootResponse>(jsonResult);
-                    
-                    if (response.data.Count > 0)
-                    {
-                        progressBar.Value = 0;                        
-                        List<VoilationModel> vdata = new List<VoilationModel>();
-
-                        foreach (var i in response.data)
+                        var result = client.PostAsync("https://diamondsg.us.portal.cloudappsecurity.com/api/v1/files/", jsonContent).Result;
+                        if (!result.IsSuccessStatusCode)
                         {
-                            VoilationModel Obj = new VoilationModel();
-                            Obj.Name = i.name;
-                            Obj.OwnerName = i.ownerName;
-                            Obj.AppName = i.appName;
-                            Obj.AlternateLink = i.alternateLink;
-                            Obj.CreatedDate = (new DateTime(1970, 1, 1)).AddMilliseconds(long.Parse(i.createdDate)).ToString();
-                            Obj.FilePath = i.filePath;
-                            if (i.fTags.Length > 0)
+                            throw new ArgumentException("something bad happended");
+                        }
+
+                        var jsonResult = result.Content.ReadAsStringAsync().Result;
+                        var response = JsonConvert.DeserializeObject<RootResponse>(jsonResult);
+
+                        if (response.data.Count > 0)
+                        {
+                            progressBar.Value = 0;
+                            List<VoilationModel> vdata = new List<VoilationModel>();
+
+                            foreach (var i in response.data)
                             {
-                                var fTags = i.fTags[0].Split(new string[] { "_" }, StringSplitOptions.None);
-                                var lableId = fTags[1];
-                                ClassificationDetailsModel classification = cd.Where(x => x.Id == lableId).FirstOrDefault();
-                                if (classification != null)
+                                VoilationModel Obj = new VoilationModel();
+                                Obj.Name = i.name;
+                                Obj.OwnerName = i.ownerName;
+                                Obj.AppName = i.appName;
+                                Obj.AlternateLink = i.alternateLink;
+                                Obj.CreatedDate = (new DateTime(1970, 1, 1)).AddMilliseconds(long.Parse(i.createdDate)).ToString();
+                                Obj.FilePath = i.filePath;
+                                if (i.fTags.Length > 0)
                                 {
-                                    Obj.Classification = classification.Name;
-                                    Obj.ClassificationId = lableId;
+                                    var fTags = i.fTags[0].Split(new string[] { "_" }, StringSplitOptions.None);
+                                    var lableId = fTags[1];
+                                    ClassificationDetailsModel classification = cd.Where(x => x.Id == lableId).FirstOrDefault();
+                                    if (classification != null)
+                                    {
+                                        Obj.Classification = classification.Name;
+                                        Obj.ClassificationId = lableId;
+                                    }
+                                    else
+                                    {
+                                        Obj.Classification = "";
+                                        Obj.ClassificationId = "";
+                                    }
                                 }
                                 else
                                 {
                                     Obj.Classification = "";
                                     Obj.ClassificationId = "";
                                 }
+                                vdata.Add(Obj);
                             }
-                            else
-                            {
-                                Obj.Classification = "";
-                                Obj.ClassificationId = "";
-                            }
-
-                            vdata.Add(Obj);
+                            e.Result = vdata;
                         }
-
-                        e.Result = vdata;
+                        else
+                        {
+                            MessageBox.Show("Data is Empty.");
+                        }
                     }
-                    else
-                    {
-                        MessageBox.Show("Data is Empty.");
-                    }
-                }
-
             }
             catch (Exception ex)
             {
@@ -245,14 +179,12 @@ namespace WinApi
                     backgroundWorker.CancelAsync();
                 }
             }
-
         }
 
         private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             //progressBar.Value = e.ProgressPercentage;
         }
-
         private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (e.Error != null)
@@ -275,7 +207,6 @@ namespace WinApi
                 progressBar.Value = 0;
             }
         }
-
         private void btnCSV_Click(object sender, EventArgs e)
         {
             if (dataGridView1.Rows.Count > 0)
@@ -334,8 +265,5 @@ namespace WinApi
                 MessageBox.Show("No Record To Export !!!", "Info");
             }
         }
-
-
     }
-
 }
