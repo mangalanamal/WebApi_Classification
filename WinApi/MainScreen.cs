@@ -169,6 +169,7 @@ namespace WinApi
             }
             else
             {
+                owner = new List<OwnerDetailsModel>();
                 MessageBox.Show("User Login Failed..!\n Please try again", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
