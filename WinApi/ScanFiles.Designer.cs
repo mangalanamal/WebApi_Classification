@@ -37,10 +37,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.btnScan = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.LableId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.btnClose = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
@@ -50,6 +46,13 @@
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.bgwApplyLable = new System.ComponentModel.BackgroundWorker();
             this.Clear = new System.Windows.Forms.Button();
+            this.DirectoryPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LableId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnOpenInFolder = new System.Windows.Forms.Button();
+            this.btnOpenOutFolder = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
@@ -108,7 +111,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(125, 14);
+            this.label2.Location = new System.Drawing.Point(125, 15);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(127, 13);
             this.label2.TabIndex = 5;
@@ -143,6 +146,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.DirectoryPath,
             this.dataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn2,
             this.dataGridViewTextBoxColumn3,
@@ -152,32 +156,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(1065, 341);
             this.dataGridView1.TabIndex = 8;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "FileName";
-            this.dataGridViewTextBoxColumn1.HeaderText = "File Name";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.DataPropertyName = "FilePath";
-            this.dataGridViewTextBoxColumn2.HeaderText = "File Path";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.Width = 150;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.DataPropertyName = "Current Classification";
-            this.dataGridViewTextBoxColumn3.HeaderText = "Classification";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.Width = 200;
-            // 
-            // LableId
-            // 
-            this.LableId.HeaderText = "Lable ID";
-            this.LableId.Name = "LableId";
-            this.LableId.Width = 150;
             // 
             // progressBar
             // 
@@ -270,11 +248,69 @@
             this.Clear.UseVisualStyleBackColor = true;
             this.Clear.Click += new System.EventHandler(this.Clear_Click);
             // 
+            // DirectoryPath
+            // 
+            this.DirectoryPath.HeaderText = "Directory Path";
+            this.DirectoryPath.Name = "DirectoryPath";
+            this.DirectoryPath.Visible = false;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "FileName";
+            this.dataGridViewTextBoxColumn1.HeaderText = "File Name";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "FilePath";
+            this.dataGridViewTextBoxColumn2.HeaderText = "File Path";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.Width = 150;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.DataPropertyName = "Current Classification";
+            this.dataGridViewTextBoxColumn3.HeaderText = "Classification";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.Width = 200;
+            // 
+            // LableId
+            // 
+            this.LableId.HeaderText = "Lable ID";
+            this.LableId.Name = "LableId";
+            this.LableId.Width = 150;
+            // 
+            // btnOpenInFolder
+            // 
+            this.btnOpenInFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOpenInFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnOpenInFolder.Location = new System.Drawing.Point(375, 10);
+            this.btnOpenInFolder.Name = "btnOpenInFolder";
+            this.btnOpenInFolder.Size = new System.Drawing.Size(131, 23);
+            this.btnOpenInFolder.TabIndex = 17;
+            this.btnOpenInFolder.Text = "Open Input Folder";
+            this.btnOpenInFolder.UseVisualStyleBackColor = true;
+            this.btnOpenInFolder.Click += new System.EventHandler(this.btnOpenInFolder_Click);
+            // 
+            // btnOpenOutFolder
+            // 
+            this.btnOpenOutFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOpenOutFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnOpenOutFolder.Location = new System.Drawing.Point(375, 40);
+            this.btnOpenOutFolder.Name = "btnOpenOutFolder";
+            this.btnOpenOutFolder.Size = new System.Drawing.Size(131, 23);
+            this.btnOpenOutFolder.TabIndex = 18;
+            this.btnOpenOutFolder.Text = "Open Output Folder";
+            this.btnOpenOutFolder.UseVisualStyleBackColor = true;
+            this.btnOpenOutFolder.Click += new System.EventHandler(this.btnOpenOutFolder_Click);
+            // 
             // ScanFiles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1089, 482);
+            this.Controls.Add(this.btnOpenOutFolder);
+            this.Controls.Add(this.btnOpenInFolder);
             this.Controls.Add(this.Clear);
             this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.label4);
@@ -316,13 +352,16 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnOutputFolder;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn LableId;
         private System.Windows.Forms.PictureBox pictureBox;
         private System.ComponentModel.BackgroundWorker backgroundWorker;
         private System.ComponentModel.BackgroundWorker bgwApplyLable;
         private System.Windows.Forms.Button Clear;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DirectoryPath;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LableId;
+        private System.Windows.Forms.Button btnOpenInFolder;
+        private System.Windows.Forms.Button btnOpenOutFolder;
     }
 }

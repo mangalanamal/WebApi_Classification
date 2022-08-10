@@ -14,6 +14,7 @@ namespace WinApi.Models
         public string ID { get; set; }
         public string Reclassification { get; set; }
         public string ReclassificationId { get; set; }
+        public string DirectoryPath { get; set; }
 
     }
 }
