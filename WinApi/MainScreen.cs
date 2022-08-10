@@ -13,6 +13,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WinApi.DBContext;
 using WinApi.Models;
 
 namespace WinApi
@@ -25,7 +26,7 @@ namespace WinApi
         //Set the scope for API call to user.read
         string[] scopes = new string[] { "user.read" };
 
-        IPublicClientApplication app = Program.PublicClientApp;
+        IPublicClientApplication app =  Program.PublicClientApp;
         AuthenticationResult authResult = null;
         List<OwnerDetailsModel> owner = new List<OwnerDetailsModel>();
         public MainScreen()
@@ -52,7 +53,7 @@ namespace WinApi
      
         private void MainScreen_Load(object sender, EventArgs e)
         {
-
+        
         }
 
         private void MainScreen_FormClosing(object sender, FormClosingEventArgs e)
@@ -173,46 +174,63 @@ namespace WinApi
                 MessageBox.Show("User Login Failed..!\n Please try again", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-
-        private void singInToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Singin();
-        }
-
-        private async void Singin()
+               
+        private async void Signin()
         {
             var accounts = await app.GetAccountsAsync();
             IAccount firstAccount = accounts.FirstOrDefault();
             if (firstAccount != null)
             {
+                //try
+                //{
+                //    authResult = await app.AcquireTokenSilent(scopes, firstAccount).ExecuteAsync();
+                //    if (authResult != null)
+                //    {
+                //        ManupulateGraphAPIData(authResult);
+                //    }
+                //    else
+                //    {
+                //        MessageBox.Show("Authentication failed " + firstAccount.Username, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //    }
+                //}
+                //catch (Exception ex)
+                //{
+                //    MessageBox.Show("An exception occurred in authentication for the current account " + firstAccount.Username, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //}
+
+                await app.RemoveAsync(accounts.FirstOrDefault());
+                owner = new List<OwnerDetailsModel>();
+            }
+
+            AuthenticateUser();
+        }
+
+        private async void SignOut()
+        {
+            var accounts = await app.GetAccountsAsync();
+            if (accounts.Any())
+            {
                 try
                 {
-                    authResult = await app.AcquireTokenSilent(scopes, firstAccount).ExecuteAsync();
-                    if (authResult != null)
-                    {
-                        ManupulateGraphAPIData(authResult);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Authentication failed " + firstAccount.Username, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
+                    await app.RemoveAsync(accounts.FirstOrDefault());
+                    owner = new List<OwnerDetailsModel>();
+                    MessageBox.Show("Sign Out Successfully..!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-
-                catch (Exception ex)
+                catch (MsalException ex)
                 {
-                    MessageBox.Show("An exception occurred in authentication for the current account " + firstAccount.Username, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show($"Error signing-out user: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-            }
-            else
-            {
-                AuthenticateUser();
             }
         }
 
-        private void signOutToolStripMenuItem_Click(object sender, EventArgs e)
+        private void signInToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            owner = new List<OwnerDetailsModel>();
-            MessageBox.Show("Sign Out Successfully..!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Signin();
+        }
+
+        private void signOutToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            SignOut();
         }
     }
 }
