@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using WinApi.Models;
 using Microsoft.InformationProtection;
 using System.Configuration;
+using System.Diagnostics;
 
 namespace WinApi
 {
@@ -111,6 +112,7 @@ namespace WinApi
             classificationDetails = new List<ClassificationDetailsModel>
             { 
                 new ClassificationDetailsModel {Name ="",                          Id=""},
+                new ClassificationDetailsModel {Name ="UNCLASSIFICATION",                          Id="0"},
                 new ClassificationDetailsModel {Name ="OFFICIAL - NON-SENSITIVE",                          Id="504426b3-c424-4327-b2a2-d702a47ba1f4"},
                 new ClassificationDetailsModel {Name ="OFFICIAL - SENSITIVE NORMAL",                       Id="8476f4e5-9e41-451f-90e8-d65001245451"},
                 new ClassificationDetailsModel {Name ="OFFICIAL - SENSITIVE HIGH",                         Id="8934a344-d598-4298-a95a-0a80110e8615"},
@@ -168,27 +170,30 @@ namespace WinApi
         public static List<FileModel> GetFiles(List<string> DirectoriesList)
         {
             List<FileModel> fls = new List<FileModel>();
-            string[] fe = {".docx",".doc",".ppt",".pptx",".xls",".xlsx"};
+            string[] fe = { ".docx", ".doc", ".ppt", ".pptx", ".xls", ".xlsx" };
             foreach (var d in DirectoriesList)
             {
-                string[] files = Directory.GetFiles(d);
-                if (files.Length > 0)
+                if (!d.ToString().Contains("System Volume Information") &&
+                   !d.ToString().ToUpper().Contains("$RECYCLE.BIN"))
                 {
-                    foreach (var f in files)
+
+                    string[] files = Directory.GetFiles(d);
+                    if (files.Length > 0)
                     {
-                        FileInfo fi = new FileInfo(f);
-
-                       bool validFile = fe.Any(x => x.Contains(fi.Extension));
-                        if (validFile)
+                        foreach (var f in files)
                         {
-                            var obj = new FileModel
-                            {
-                                DirectoryPath = d,
-                                FilePath = f,
-                                FileName = Path.GetFileName(f)
-                            };
-
-                            fls.Add(obj);
+                            FileInfo fi = new FileInfo(f);
+                            bool validFile = fe.Any(x => x.Contains(fi.Extension));
+                            if (validFile)
+                            {                                
+                                var obj = new FileModel
+                                {
+                                    DirectoryPath = d,
+                                    FilePath = f,
+                                    FileName = Path.GetFileName(f)
+                                };
+                                fls.Add(obj);
+                            }
                         }
                     }
                 }
@@ -198,8 +203,8 @@ namespace WinApi
 
         public static List<string> GetDirectories(string path, string searchPattern = "*", SearchOption searchOption = SearchOption.AllDirectories)
         {
-            if (searchOption == SearchOption.TopDirectoryOnly)
-                return Directory.GetDirectories(path, searchPattern).ToList();
+            //if (searchOption == SearchOption.TopDirectoryOnly)
+            //    return Directory.GetDirectories(path, searchPattern).ToList();
 
             var directories = new List<string>(GetDirectories(path, searchPattern));
 
@@ -258,7 +263,6 @@ namespace WinApi
         {
             pictureBox.Visible = true;
             progressBar.Value = 0;
-            progressBar = new ProgressBar();
             if (!bgwApplyLable.IsBusy)
             {
                 bgwApplyLable.RunWorkerAsync();
@@ -302,6 +306,7 @@ namespace WinApi
                                 string LableId = content.Label.Id;
                                 TableDetailsModel obj = new TableDetailsModel
                                 {
+                                    DirectoryPath= i.DirectoryPath,
                                     FilePath = i.FilePath,
                                     FileName = i.FileName,
                                     Classification = classificationDetails.Where(x => x.Id == LableId).FirstOrDefault().Name,
@@ -313,6 +318,7 @@ namespace WinApi
                             {
                                 TableDetailsModel obj = new TableDetailsModel
                                 {
+                                    DirectoryPath = i.DirectoryPath,
                                     FilePath = i.FilePath,
                                     FileName = i.FileName,
                                     Classification = "",
@@ -320,8 +326,6 @@ namespace WinApi
                                 };
                                 TableDetails.Add(obj);
                             }
-
-
                         }
 
                         if (TableDetails.Count > 0)
@@ -359,10 +363,18 @@ namespace WinApi
             {
                 string FilerLableId = cmbFilter.SelectedIndex > -1 ? cmbFilter.SelectedValue.ToString() : "";
                 List<TableDetailsModel> tableDetails = (List<TableDetailsModel>)e.Result;
-                if (!string.IsNullOrEmpty(FilerLableId))
-                {
-                    tableDetails = tableDetails.Where(x => x.ID == FilerLableId).ToList();
-                }
+                //if (!string.IsNullOrEmpty(FilerLableId))
+                //{
+                //    if (FilerLableId == "0")
+                //    {
+                //        tableDetails = tableDetails.Where(x => x.ID == "").ToList();
+                //    }
+                //    else
+                //    {
+                //        tableDetails = tableDetails.Where(x => x.ID == FilerLableId).ToList();
+
+                //    }
+                //}
                 progressBar.Value = 0;
                 progressBar.Minimum = 0;
                 progressBar.Maximum = tableDetails.Count;
@@ -372,6 +384,7 @@ namespace WinApi
                     progressBar.Value += 1;
                     Thread.Sleep(100);
                     dataGridView1.Rows.Add(
+                        r.DirectoryPath,
                         r.FileName,
                         r.FilePath,
                         r.Classification,
@@ -398,16 +411,16 @@ namespace WinApi
                  
                     for (int i = 0; i < dataGridView1.Rows.Count; i++)
                     {
-                        if (!string.IsNullOrEmpty((dataGridView1.Rows[i].Cells[4] as DataGridViewComboBoxCell).FormattedValue.ToString()))
+                        if (!string.IsNullOrEmpty((dataGridView1.Rows[i].Cells[5] as DataGridViewComboBoxCell).FormattedValue.ToString()))
                         {
                             TableDetailsModel obj = new TableDetailsModel();
-
-                            obj.FileName = dataGridView1.Rows[i].Cells[0].Value.ToString();
-                            obj.FilePath = dataGridView1.Rows[i].Cells[1].Value.ToString();
-                            obj.Classification = dataGridView1.Rows[i].Cells[2].Value.ToString();
-                            obj.ID = dataGridView1.Rows[i].Cells[3].Value.ToString();
-                            obj.Reclassification = (dataGridView1.Rows[i].Cells[4] as DataGridViewComboBoxCell).FormattedValue.ToString();
-                            obj.ReclassificationId = dataGridView1.Rows[i].Cells[4].Value.ToString();
+                            obj.DirectoryPath = dataGridView1.Rows[i].Cells[0].Value.ToString();
+                            obj.FileName = dataGridView1.Rows[i].Cells[1].Value.ToString();
+                            obj.FilePath = dataGridView1.Rows[i].Cells[2].Value.ToString();
+                            obj.Classification = dataGridView1.Rows[i].Cells[3].Value.ToString();
+                            obj.ID = dataGridView1.Rows[i].Cells[4].Value.ToString();
+                            obj.Reclassification = (dataGridView1.Rows[i].Cells[5] as DataGridViewComboBoxCell).FormattedValue.ToString();
+                            obj.ReclassificationId = dataGridView1.Rows[i].Cells[5].Value.ToString();
                             al.Add(obj);
                         }
                     }
@@ -415,25 +428,43 @@ namespace WinApi
                     if (al.Count > 0)
                     {
                         int progress = 0;
+                        string ClassificationDirectory = "\\ClassificationDirectory_" + DateTime.Now.ToString("yyyyMMddhhmmss");
                         Action action = new Action(appInfo);
                         foreach (var i in al)
                         {
-                            string outputFilePath = label4.Text + "\\" + i.FileName;
-                            int num = 1;
-                            do
-                            {
-                                if (File.Exists(outputFilePath))
-                                {
-                                    FileInfo fi = new FileInfo(i.FileName);
-                                    outputFilePath = (label4.Text + "\\" + fi.Name.Replace(fi.Extension, "") + "(" + num.ToString() + ")" + fi.Extension);
-                                }
-                                else
-                                {
-                                    break;
-                                }
-                            } while (true);
+                            //string outputFilePath = label4.Text + "\\" + i.FileName;
+                            //int num = 1;
+                            //do
+                            //{
+                            //    if (File.Exists(outputFilePath))
+                            //    {
+                            //        FileInfo fi = new FileInfo(i.FileName);
+                            //        outputFilePath = (label4.Text + "\\" + fi.Name.Replace(fi.Extension, "") + "(" + num.ToString() + ")" + fi.Extension);
+                            //    }
+                            //    else
+                            //    {
+                            //        break;
+                            //    }
+                            //} while (true);
 
-                        
+                            string originalFilePath = i.DirectoryPath;
+                            var dr = Directory.GetDirectoryRoot(originalFilePath);
+                            string directoryPath = originalFilePath.Replace(dr, "");
+                            string outputFilePath = "";
+                            if (!string.IsNullOrEmpty(directoryPath))
+                            {
+                                outputFilePath = label4.Text + ClassificationDirectory + "\\" + directoryPath;
+                            }
+                            else
+                            {
+                                directoryPath = label4.Text + ClassificationDirectory;
+                            }
+                            if (!Directory.Exists(outputFilePath))
+                            {
+                                Directory.CreateDirectory(outputFilePath);
+                            }
+                            outputFilePath = outputFilePath + "\\" + i.FileName;
+
                             Action.FileOptions options = new Action.FileOptions
                             {
                                 FileName = i.FilePath,
@@ -449,29 +480,29 @@ namespace WinApi
                             // Set label, commit change to outputfile, and send audit event if enabled.
                             bool result = action.SetLabel(options);
 
-                            if (result)
-                            {
-                                // Update options to read the previously generated file output.
-                                options.FileName = options.OutputName;
-                            }
+                            //if (result)
+                            //{
+                            //    // Update options to read the previously generated file output.
+                            //    options.FileName = options.OutputName;
+                            //}
                             if (al.Count != progress)
                             {
                                 progress += 1;
                             }
-                            bgwApplyLable.ReportProgress(progress);
+                            ////bgwApplyLable.ReportProgress(progress);
                             Thread.Sleep(100);
                             
                         }
 
-                        if (al.Count == progressBar.Value)
+                        if (al.Count == progress)
                         {
-                            e.Result = "Classification changed Successfully !!!";
+                            e.Result = "Successfully";
                             Log(al, label4.Text);
                         }
                     }
                     else
                     {
-                        e.Result = "Please select Reclassification value";
+                        e.Result = "Empty";
                     }
                 }
             }
@@ -488,7 +519,7 @@ namespace WinApi
 
         private void bgwApplyLable_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            progressBar.Value = e.ProgressPercentage;
+            //progressBar.Value = e.ProgressPercentage;
         }
 
         private void bgwApplyLable_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -500,7 +531,19 @@ namespace WinApi
             else if (e.Result != null)
             {
                 pictureBox.Visible = false;
-                MessageBox.Show(e.Result.ToString(), "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (e.Result.ToString() == "Successfully")
+                {
+                    progressBar.Value = 0;
+                    progressBar.Maximum = 1;
+                    progressBar.Minimum = 0;
+                    progressBar.Value += 1;
+                MessageBox.Show("Classification changed Successfully..!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+                else if (e.Result.ToString() == "Empty")
+                {
+                    MessageBox.Show("Please select Reclassification value", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
             else
             {
@@ -516,7 +559,7 @@ namespace WinApi
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 4)
+            if (e.ColumnIndex == 5)
             {
                 //You can check for e.ColumnIndex to limit this to your specific column
                 var editingControl = this.dataGridView1.EditingControl as DataGridViewComboBoxEditingControl;
@@ -575,7 +618,17 @@ namespace WinApi
                 if (!string.IsNullOrEmpty(FilerLableId))
                 {
                     dataGridView1.Rows.Clear();
-                    List<TableDetailsModel> td = TableDetails.Where(x => x.ID == FilerLableId).ToList();
+                    List<TableDetailsModel> td = new List<TableDetailsModel>();
+                    if (FilerLableId == "0")
+                    {
+                        td = TableDetails.Where(x => x.ID == "").ToList();
+                    }
+                    else
+                    {
+                        td = TableDetails.Where(x => x.ID == FilerLableId).ToList();
+
+                    }
+
                     progressBar.Value = 0;
                     progressBar.Minimum = 0;
                     progressBar.Maximum = td.Count;
@@ -585,6 +638,7 @@ namespace WinApi
                         progressBar.Value += 1;
                         Thread.Sleep(100);
                         dataGridView1.Rows.Add(
+                            r.DirectoryPath,
                             r.FileName,
                             r.FilePath,
                             r.Classification,
@@ -605,6 +659,7 @@ namespace WinApi
                         progressBar.Value += 1;
                         Thread.Sleep(100);
                         dataGridView1.Rows.Add(
+                            r.DirectoryPath,
                             r.FileName,
                             r.FilePath,
                             r.Classification,
@@ -613,6 +668,22 @@ namespace WinApi
 
                     }
                 }
+            }
+        }
+
+        private void btnOpenInFolder_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(label3.Text))
+            {
+                Process.Start(label3.Text);
+            }
+        }
+
+        private void btnOpenOutFolder_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(label4.Text))
+            {
+                Process.Start(label4.Text);
             }
         }
     }
