@@ -1,10 +1,13 @@
 ﻿using Microsoft.Identity.Client;
+using Microsoft.InformationProtection;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -15,17 +18,20 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using WinApi.DBContext;
 using WinApi.Models;
+using WinApi.Models.SQLiteModels;
 
 namespace WinApi
 {
     public partial class MainScreen : Form
     {
-        private Form activeForm = null;
-        //Set the API Endpoint to Graph 'me' endpoint
-        string graphAPIEndpoint = "https://graph.microsoft.com/v1.0/me";
+        private static readonly string clientId = ConfigurationManager.AppSettings["ida:ClientId"];
+        private static readonly string appName = ConfigurationManager.AppSettings["app:Name"];
+        private static readonly string appVersion = ConfigurationManager.AppSettings["app:Version"];
+        private static readonly string graphAPIEndpoint = ConfigurationManager.AppSettings["graphAPIEndpoint"];
+        DataContext db = new DataContext();
+        private Form activeForm = null;        
         //Set the scope for API call to user.read
         string[] scopes = new string[] { "user.read" };
-
         IPublicClientApplication app =  Program.PublicClientApp;
         AuthenticationResult authResult = null;
         List<OwnerDetailsModel> owner = new List<OwnerDetailsModel>();
@@ -231,6 +237,78 @@ namespace WinApi
         private void signOutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             SignOut();
+        }
+
+        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Create ApplicationInfo, setting the clientID from Azure AD App Registration as the ApplicationId
+            // If any of these values are not set API throws BadInputException.
+            ApplicationInfo appInfo = new ApplicationInfo()
+            {
+                // ApplicationId should ideally be set to the same ClientId found in the Azure AD App Registration.
+                // This ensures that the clientID in AAD matches the AppId reported in AIP Analytics.
+                ApplicationId = clientId,
+                ApplicationName = appName,
+                ApplicationVersion = appVersion
+            };
+            // Initialize Action class, passing in AppInfo.
+            Action action = new Action(appInfo);
+            // List all labels available to the engine created in Action
+            IEnumerable<Microsoft.InformationProtection.Label> labels = action.ListLabels();
+            // Enumerate parent and child labels and print name/ID. 
+            List<ClassificationDetails> cd = new List<ClassificationDetails>();
+            List<ClassificationDetails> cdlist = db.ClassificationDetails.OrderBy(x => x.Name).ToList();
+            foreach (var label in labels)
+            {
+                if (label.Children.Count > 0)
+                {
+                    foreach (Microsoft.InformationProtection.Label child in label.Children)
+                    {
+                        if (cdlist.Count > 0)
+                        {
+                            if (!cdlist.Any(x => x.Id == child.Id))
+                            {
+                                ClassificationDetails obj = new ClassificationDetails();
+                                obj.Id = child.Id;
+                                obj.Name = label.Name + "-" + child.Name;
+                                cd.Add(obj);
+                            }
+                        }
+                        else
+                        {
+                            ClassificationDetails obj = new ClassificationDetails();
+                            obj.Id = child.Id;
+                            obj.Name = label.Name + " - " + child.Name;
+                            cd.Add(obj);
+                        }
+                    }
+                }
+            }
+
+            if (cd.Count > 0)
+            {
+                using (var ctx = new DataContext())
+                {
+                    using (DbContextTransaction tran = ctx.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            ctx.ClassificationDetails.AddRange(cd);
+                            ctx.SaveChangesAsync();
+                            tran.Commit();
+                            MessageBox.Show($"successfully updated {cd.Count} new lables.!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        catch (Exception ex)
+                        {
+                            tran.Rollback();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("No more new lables.!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }
