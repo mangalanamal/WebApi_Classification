@@ -307,14 +307,14 @@ namespace WinApi
                             if (content != null)
                             {
                                 string LableId = content.Label.Id;
-                                TableDetailsModel obj = new TableDetailsModel
-                                {
-                                    DirectoryPath= i.DirectoryPath,
-                                    FilePath = i.FilePath,
-                                    FileName = i.FileName,
-                                    Classification = classificationDetails.Where(x => x.Id == LableId).FirstOrDefault().Name,
-                                    ID = LableId
-                                };
+                                TableDetailsModel obj = new TableDetailsModel();
+
+                                obj.DirectoryPath = i.DirectoryPath;
+                                obj.FilePath = i.FilePath;
+                                obj.FileName = i.FileName;
+                                obj.Classification = classificationDetails.Where(x => x.Id == LableId).FirstOrDefault().Name;
+                                obj.ID = LableId;
+                                
                                 TableDetails.Add(obj);
                             }
                             else
