@@ -56,7 +56,7 @@ namespace WinApi
             {
                 MessageBox.Show("Please sign in before accessing this form", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            cmbSortByName.SelectedIndex = 0;
+            //cmbSortByName.SelectedIndex = 0;
         }
         private void FillClassificationList()
         {      
@@ -250,83 +250,83 @@ namespace WinApi
             }
         }
 
-        private void btnFilter_Click(object sender, EventArgs e)
-        {
-            if (response.Count > 0)
-            {              
-                List<VoilationModel> flt = new List<VoilationModel>();
+        //private void btnFilter_Click(object sender, EventArgs e)
+        //{
+        //    if (response.Count > 0)
+        //    {              
+        //        List<VoilationModel> flt = new List<VoilationModel>();
                 
-                if (cmbSortByName.Text == "File Name")
-                {
-                    if (rbtnDesc.Checked)
-                    {
-                        flt = response.OrderByDescending(x => x.Name).ToList();
-                    }
-                    else
-                    {
-                        flt=response.OrderBy(x => x.Name).ToList();
-                    }
-                }
-                else if (cmbSortByName.Text == "File Source")
-                {
-                    if (rbtnDesc.Checked)
-                    {
-                        flt = response.OrderByDescending(x => x.FilePath).ToList(); ;
-                    }
-                    else
-                    {
-                        flt = response.OrderBy(x => x.FilePath).ToList();
-                    }
-                }
-                else if (cmbSortByName.Text == "Created Date")
-                {
-                    if (rbtnDesc.Checked)
-                    {
-                        flt = response.OrderByDescending(x => x.CreatedDate).ToList();
-                    }
-                    else
-                    {
-                        flt = response.OrderBy(x => x.CreatedDate).ToList();
-                    }
-                }
-                else if (cmbSortByName.Text == "Classification")
-                {
-                    if (rbtnDesc.Checked)
-                    {
-                        flt = response.OrderByDescending(x => x.Classification).ToList();
-                    }
-                    else
-                    {
-                        flt = response.OrderBy(x => x.Classification).ToList();
-                    }
-                }
-                else if (cmbSortByName.Text == "Link")
-                {
-                    if (rbtnDesc.Checked)
-                    {
-                        flt = response.OrderByDescending(x => x.AlternateLink).ToList();
-                    }
-                    else
-                    {
-                        flt = response.OrderBy(x => x.AlternateLink).ToList();
-                    }
-                }
-                else
-                {
-                    flt = response.OrderBy(x => x.Name).ToList();
-                }
+        //        if (cmbSortByName.Text == "File Name")
+        //        {
+        //            if (rbtnDesc.Checked)
+        //            {
+        //                flt = response.OrderByDescending(x => x.Name).ToList();
+        //            }
+        //            else
+        //            {
+        //                flt=response.OrderBy(x => x.Name).ToList();
+        //            }
+        //        }
+        //        else if (cmbSortByName.Text == "File Source")
+        //        {
+        //            if (rbtnDesc.Checked)
+        //            {
+        //                flt = response.OrderByDescending(x => x.FilePath).ToList(); ;
+        //            }
+        //            else
+        //            {
+        //                flt = response.OrderBy(x => x.FilePath).ToList();
+        //            }
+        //        }
+        //        else if (cmbSortByName.Text == "Created Date")
+        //        {
+        //            if (rbtnDesc.Checked)
+        //            {
+        //                flt = response.OrderByDescending(x => x.CreatedDate).ToList();
+        //            }
+        //            else
+        //            {
+        //                flt = response.OrderBy(x => x.CreatedDate).ToList();
+        //            }
+        //        }
+        //        else if (cmbSortByName.Text == "Classification")
+        //        {
+        //            if (rbtnDesc.Checked)
+        //            {
+        //                flt = response.OrderByDescending(x => x.Classification).ToList();
+        //            }
+        //            else
+        //            {
+        //                flt = response.OrderBy(x => x.Classification).ToList();
+        //            }
+        //        }
+        //        else if (cmbSortByName.Text == "Link")
+        //        {
+        //            if (rbtnDesc.Checked)
+        //            {
+        //                flt = response.OrderByDescending(x => x.AlternateLink).ToList();
+        //            }
+        //            else
+        //            {
+        //                flt = response.OrderBy(x => x.AlternateLink).ToList();
+        //            }
+        //        }
+        //        else
+        //        {
+        //            flt = response.OrderBy(x => x.Name).ToList();
+        //        }
 
-                if (flt.Count > 0)
-                {
-                    FillGrid(flt);
-                }
-                else
-                {
-                    dataGridView1.Rows.Clear();
-                }
+        //        if (flt.Count > 0)
+        //        {
+        //            FillGrid(flt);
+        //        }
+        //        else
+        //        {
+        //            dataGridView1.Rows.Clear();
+        //        }
                
-            }
-        }
+        //    }
+        //}
 
         private void FillGrid(List<VoilationModel> vm)
         {
