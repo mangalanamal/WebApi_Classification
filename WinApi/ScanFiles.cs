@@ -50,54 +50,80 @@ namespace WinApi
 
         private void DGVTableColumns()
         {
-            ////Add a CheckBox Column to the DataGridView Header Cell.
+            //Add a CheckBox Column to the DataGridView Header Cell.
 
-            ////Find the Location of Header Cell.
-            //Point headerCellLocation = this.dataGridView1.GetCellDisplayRectangle(0, -1, true).Location;
-
-            ////Place the Header CheckBox in the Location of the Header Cell.
-            //headerCheckBox.Location = new Point(headerCellLocation.X + 8, headerCellLocation.Y + 2);
-            //headerCheckBox.BackColor = Color.White;
-            //headerCheckBox.Size = new Size(18, 18);
-
-            ////Assign Click event to the Header CheckBox.
-            //headerCheckBox.Click += new EventHandler(HeaderCheckBox_Clicked);
-            //dataGridView1.Controls.Add(headerCheckBox);
-
-            ////Add a CheckBox Column to the DataGridView at the first position.
-            //DataGridViewCheckBoxColumn checkBoxColumn = new DataGridViewCheckBoxColumn();
-            //checkBoxColumn.HeaderText = "";
-            //checkBoxColumn.Width = 30;
-            //checkBoxColumn.Name = "SelectRow";
-            //dataGridView1.Columns.Insert(0, checkBoxColumn);
-
-            ////Assign Click event to the DataGridView Cell.
-            //dataGridView1.CellContentClick += new DataGridViewCellEventHandler(DataGridView_CellClick);
-
+            //Find the Location of Header Cell.
+            Point headerCellLocation = this.dataGridView1.GetCellDisplayRectangle(1, -1, true).Location;
+            //Place the Header CheckBox in the Location of the Header Cell.
+            headerCheckBox.Location = new Point(headerCellLocation.X + 8, headerCellLocation.Y + 2);
+            headerCheckBox.BackColor = Color.White;
+            headerCheckBox.Size = new Size(18, 18);
+            //Assign Click event to the Header CheckBox.
+            headerCheckBox.Click += new EventHandler(HeaderCheckBox_Clicked);
+            dataGridView1.Controls.Add(headerCheckBox);
+            //Add a CheckBox Column to the DataGridView at the first position.
+            DataGridViewCheckBoxColumn checkBoxColumn = new DataGridViewCheckBoxColumn
+            {
+                HeaderText = "",
+                Width = 30,
+                Name = "SelectRow"
+            };
+            dataGridView1.Columns.Insert(1, checkBoxColumn);
+            //Assign Click event to the DataGridView Cell.
+            dataGridView1.CellContentClick += new DataGridViewCellEventHandler(DataGridView_CellClick);
             //add new ComboBox
-
+            List<ClassificationDetails> rcd = new List<ClassificationDetails>();
+            rcd = db.ClassificationDetails.ToList();
+            rcd.Add( new ClassificationDetails { Id="",Name=""});
             var bindingSource = new BindingSource
             {
-                DataSource = classificationDetails.ToList()
+                DataSource = rcd.OrderBy(x => x.Name).ToList()
             };
             DataGridViewComboBoxColumn dgvCboColumn = new DataGridViewComboBoxColumn
             {
                 Name = "Reclassification",
                 DataSource = bindingSource.DataSource,  //DataTable that contains contact details
-                DisplayMember = "Name",
+                DisplayMember = "Name",                
                 ValueMember = "Id",
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
             };
             dataGridView1.Columns.Add(dgvCboColumn);
             dataGridView1.Columns[0].ReadOnly = true;
-            dataGridView1.Columns[1].ReadOnly = true;
             dataGridView1.Columns[2].ReadOnly = true;
             dataGridView1.Columns[3].ReadOnly = true;
-
+            dataGridView1.Columns[4].ReadOnly = true;
+            dataGridView1.Columns[5].ReadOnly = true;
             this.dataGridView1.EditMode = DataGridViewEditMode.EditOnEnter;
-
         }
-
+        private void HeaderCheckBox_Clicked(object sender, EventArgs e)
+        {
+            //Necessary to end the edit mode of the Cell.
+            dataGridView1.EndEdit();
+            //Loop and check and uncheck all row CheckBoxes based on Header Cell CheckBox.
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                DataGridViewCheckBoxCell checkBox = (row.Cells["SelectRow"] as DataGridViewCheckBoxCell);
+                checkBox.Value = headerCheckBox.Checked;
+            }
+        }
+        private void DataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //Check to ensure that the row CheckBox is clicked.
+            if (e.RowIndex >= 0 && e.ColumnIndex == 1)
+            {
+                //Loop to verify whether all row CheckBoxes are checked or not.
+                bool isChecked = true;
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    if (Convert.ToBoolean(row.Cells["SelectRow"].EditedFormattedValue) == false)
+                    {
+                        isChecked = false;
+                        break;
+                    }
+                }
+                headerCheckBox.Checked = isChecked;
+            }
+        }
         private void FillCmbFilter()
         {
             var bindingSource = new BindingSource
@@ -132,9 +158,8 @@ namespace WinApi
                     classificationDetails.Add(obj);
                 }
             }
-            db.Dispose();
+            //db.Dispose();
         }
-
         private void button2_Click(object sender, EventArgs e)
         {
             using (var fbd = new FolderBrowserDialog())
@@ -147,7 +172,6 @@ namespace WinApi
                 }
             }
         }
-
         private void btnScan_Click(object sender, EventArgs e)
         {
             cmbFilter.Enabled = false;
@@ -169,7 +193,6 @@ namespace WinApi
             }
             
         }
-
         public static List<FileModel> GetFiles(List<string> DirectoriesList)
         {
             List<FileModel> fls = new List<FileModel>();
@@ -203,7 +226,6 @@ namespace WinApi
             }
             return fls;
         }
-
         public static List<string> GetDirectories(string path, string searchPattern = "*", SearchOption searchOption = SearchOption.AllDirectories)
         {
             //if (searchOption == SearchOption.TopDirectoryOnly)
@@ -216,7 +238,6 @@ namespace WinApi
 
             return directories;
         }
-
         private static List<string> GetDirectories(string path, string searchPattern)
         {
             try
@@ -228,12 +249,10 @@ namespace WinApi
                 return new List<string>();
             }
         }
-
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
         private void btnOutputFolder_Click(object sender, EventArgs e)
         {
             using (var fbd = new FolderBrowserDialog())
@@ -261,7 +280,6 @@ namespace WinApi
                 }
             }
         }
-
         private void btnApplyLable_Click(object sender, EventArgs e)
         {
             pictureBox.Visible = true;
@@ -271,7 +289,6 @@ namespace WinApi
                 bgwApplyLable.RunWorkerAsync();
             }
         }
-
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             try
@@ -307,14 +324,21 @@ namespace WinApi
                             if (content != null)
                             {
                                 string LableId = content.Label.Id;
+                                ClassificationDetailsModel Classification = classificationDetails.Where(x => x.Id == LableId).FirstOrDefault();
                                 TableDetailsModel obj = new TableDetailsModel();
 
                                 obj.DirectoryPath = i.DirectoryPath;
                                 obj.FilePath = i.FilePath;
                                 obj.FileName = i.FileName;
-                                obj.Classification = classificationDetails.Where(x => x.Id == LableId).FirstOrDefault().Name;
-                                obj.ID = LableId;
-                                
+                                if (Classification != null)
+                                {
+                                    obj.Classification = Classification.Name;
+                                }
+                                else
+                                {
+                                    obj.Classification = "";
+                                }
+                                obj.ID = LableId;                                
                                 TableDetails.Add(obj);
                             }
                             else
@@ -349,12 +373,10 @@ namespace WinApi
 
             }
         }
-
         private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             progressBar.Value = e.ProgressPercentage;    
         }
-
         private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (e.Error != null)
@@ -386,8 +408,9 @@ namespace WinApi
                 {
                     progressBar.Value += 1;
                     Thread.Sleep(100);
-                    dataGridView1.Rows.Add(
+                    dataGridView1.Rows.Add(                        
                         r.DirectoryPath,
+                        false,
                         r.FileName,
                         r.FilePath,
                         r.Classification,
@@ -395,6 +418,19 @@ namespace WinApi
                         );
 
                 }
+
+                List<ClassificationDetails> rcd = new List<ClassificationDetails>();
+                rcd = db.ClassificationDetails.ToList();
+                rcd.Add(new ClassificationDetails { Id = "", Name = "" });
+                var bindingSource = new BindingSource
+                {
+                    DataSource = rcd.OrderBy(x => x.Name).ToList()
+                };
+
+                cmbBulkRecl.DataSource = bindingSource;
+                cmbBulkRecl.DisplayMember = "Name";
+                cmbBulkRecl.ValueMember = "Id";
+
             }
             else
             {
@@ -403,7 +439,6 @@ namespace WinApi
             cmbFilter.Enabled = true;
             //MessageBox.Show("Classification changed Successfully !!!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-
         private void bgwApplyLable_DoWork(object sender, DoWorkEventArgs e)
         {
             try
@@ -414,16 +449,16 @@ namespace WinApi
                  
                     for (int i = 0; i < dataGridView1.Rows.Count; i++)
                     {
-                        if (!string.IsNullOrEmpty((dataGridView1.Rows[i].Cells[5] as DataGridViewComboBoxCell).FormattedValue.ToString()))
+                        if (!string.IsNullOrEmpty((dataGridView1.Rows[i].Cells[6] as DataGridViewComboBoxCell).FormattedValue.ToString()))
                         {
                             TableDetailsModel obj = new TableDetailsModel();
                             obj.DirectoryPath = dataGridView1.Rows[i].Cells[0].Value.ToString();
-                            obj.FileName = dataGridView1.Rows[i].Cells[1].Value.ToString();
-                            obj.FilePath = dataGridView1.Rows[i].Cells[2].Value.ToString();
-                            obj.Classification = dataGridView1.Rows[i].Cells[3].Value.ToString();
-                            obj.ID = dataGridView1.Rows[i].Cells[4].Value.ToString();
-                            obj.Reclassification = (dataGridView1.Rows[i].Cells[5] as DataGridViewComboBoxCell).FormattedValue.ToString();
-                            obj.ReclassificationId = dataGridView1.Rows[i].Cells[5].Value.ToString();
+                            obj.FileName = dataGridView1.Rows[i].Cells[2].Value.ToString();
+                            obj.FilePath = dataGridView1.Rows[i].Cells[3].Value.ToString();
+                            obj.Classification = dataGridView1.Rows[i].Cells[4].Value.ToString();
+                            obj.ID = dataGridView1.Rows[i].Cells[5].Value.ToString();
+                            obj.Reclassification = (dataGridView1.Rows[i].Cells[6] as DataGridViewComboBoxCell).FormattedValue.ToString();
+                            obj.ReclassificationId = dataGridView1.Rows[i].Cells[6].Value.ToString();
                             al.Add(obj);
                         }
                     }
@@ -519,12 +554,10 @@ namespace WinApi
                 }
             }
         }
-
         private void bgwApplyLable_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             //progressBar.Value = e.ProgressPercentage;
         }
-
         private void bgwApplyLable_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (e.Error != null)
@@ -553,16 +586,16 @@ namespace WinApi
                 pictureBox.Visible = false;
             }
         }
-
         private void Clear_Click(object sender, EventArgs e)
         {
             progressBar.Value = 0;
             dataGridView1.Rows.Clear();
+            label3.Text = "";
+            label4.Text = "";
         }
-
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 5)
+            if (e.ColumnIndex == 6 && e.RowIndex > -1)
             {
                 //You can check for e.ColumnIndex to limit this to your specific column
                 var editingControl = this.dataGridView1.EditingControl as DataGridViewComboBoxEditingControl;
@@ -570,7 +603,6 @@ namespace WinApi
                     editingControl.DroppedDown = true;
             }
         }
-   
         private void Log(List<TableDetailsModel> al,string OutputFilePath)
         {
             if (al.Count > 0)
@@ -612,7 +644,6 @@ namespace WinApi
                 File.WriteAllLines(fileName, outputCsv, Encoding.UTF8);
             }
         }
-
         private void cmbFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (TableDetails.Count > 0)
@@ -673,7 +704,6 @@ namespace WinApi
                 }
             }
         }
-
         private void btnOpenInFolder_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(label3.Text))
@@ -681,12 +711,91 @@ namespace WinApi
                 Process.Start(label3.Text);
             }
         }
-
         private void btnOpenOutFolder_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(label4.Text))
             {
                 Process.Start(label4.Text);
+            }
+        }
+        private void btnSet_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.Rows.Count > 0 && cmbBulkRecl.SelectedIndex > -1)
+            {
+                var rec = cmbBulkRecl.SelectedValue;
+                for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                {
+                    if ((bool)dataGridView1.Rows[i].Cells[1].Value == true)
+                    {
+                        (dataGridView1.Rows[i].Cells[6] as DataGridViewComboBoxCell).Value  = rec;
+                    }
+                }
+            }
+        }
+        private void btnCSV_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.Rows.Count > 0)
+            {
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Filter = "CSV (*.csv)|*.csv";
+                sfd.FileName = "ScanFile.csv";
+                bool fileError = false;
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    if (File.Exists(sfd.FileName))
+                    {
+                        try
+                        {
+                            File.Delete(sfd.FileName);
+                        }
+                        catch (IOException ex)
+                        {
+                            fileError = true;
+                            MessageBox.Show("It wasn't possible to write the data to the disk." + ex.Message);
+                        }
+                    }
+                    if (!fileError)
+                    {
+                        try
+                        {
+                            //int columnCount = dataGridView1.Columns.Count;
+                            string columnNames = "";
+                            string[] outputCsv = new string[dataGridView1.Rows.Count + 1];
+                            //for (int i = 0; i < columnCount; i++)
+                            //{
+                            //    columnNames += dataGridView1.Columns[i].HeaderText.ToString() + ",";
+                            //}
+
+
+                            columnNames += "File Name" + ",";
+                            columnNames += "File Source" + ",";
+                            columnNames += "Classification" + ",";
+                            columnNames += "Lable ID" + ",";
+                            //columnNames += "Reclassification" + ",";
+
+                            outputCsv[0] += columnNames;
+
+                            for (int i = 1; (i - 1) < dataGridView1.Rows.Count; i++)
+                            {
+                                for (int j = 2; j < 6; j++)
+                                {
+                                    outputCsv[i] += dataGridView1.Rows[i - 1].Cells[j].Value.ToString() + ",";
+                                }
+                            }
+
+                            File.WriteAllLines(sfd.FileName, outputCsv, Encoding.UTF8);
+                            MessageBox.Show("Data Exported Successfully !!!", "Info");
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error :" + ex.Message);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("No Record To Export !!!", "Info");
             }
         }
     }
