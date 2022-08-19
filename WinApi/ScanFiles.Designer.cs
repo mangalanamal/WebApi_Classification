@@ -46,13 +46,17 @@
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.bgwApplyLable = new System.ComponentModel.BackgroundWorker();
             this.Clear = new System.Windows.Forms.Button();
+            this.btnOpenInFolder = new System.Windows.Forms.Button();
+            this.btnOpenOutFolder = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.cmbBulkRecl = new System.Windows.Forms.ComboBox();
+            this.btnSet = new System.Windows.Forms.Button();
+            this.btnCSV = new System.Windows.Forms.Button();
             this.DirectoryPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LableId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnOpenInFolder = new System.Windows.Forms.Button();
-            this.btnOpenOutFolder = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
@@ -63,10 +67,6 @@
             this.cmbFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbFilter.FormattingEnabled = true;
-            this.cmbFilter.Items.AddRange(new object[] {
-            "Unclassifierd Files",
-            "Confidential",
-            "Secret"});
             this.cmbFilter.Location = new System.Drawing.Point(561, 10);
             this.cmbFilter.Name = "cmbFilter";
             this.cmbFilter.Size = new System.Drawing.Size(359, 21);
@@ -88,7 +88,7 @@
             // 
             this.btnApplyLable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnApplyLable.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnApplyLable.Location = new System.Drawing.Point(907, 447);
+            this.btnApplyLable.Location = new System.Drawing.Point(819, 447);
             this.btnApplyLable.Name = "btnApplyLable";
             this.btnApplyLable.Size = new System.Drawing.Size(82, 23);
             this.btnApplyLable.TabIndex = 3;
@@ -99,7 +99,7 @@
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(12, 9);
+            this.button2.Location = new System.Drawing.Point(10, 9);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(107, 23);
             this.button2.TabIndex = 4;
@@ -113,15 +113,15 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(125, 15);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(127, 13);
+            this.label2.Size = new System.Drawing.Size(135, 13);
             this.label2.TabIndex = 5;
-            this.label2.Text = "Input Files Location :";
+            this.label2.Text = "Input Files Location   :";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(258, 15);
+            this.label3.Location = new System.Drawing.Point(267, 15);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(0, 13);
             this.label3.TabIndex = 6;
@@ -200,7 +200,7 @@
             // btnOutputFolder
             // 
             this.btnOutputFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOutputFolder.Location = new System.Drawing.Point(12, 38);
+            this.btnOutputFolder.Location = new System.Drawing.Point(10, 38);
             this.btnOutputFolder.Name = "btnOutputFolder";
             this.btnOutputFolder.Size = new System.Drawing.Size(107, 23);
             this.btnOutputFolder.TabIndex = 11;
@@ -248,38 +248,6 @@
             this.Clear.UseVisualStyleBackColor = true;
             this.Clear.Click += new System.EventHandler(this.Clear_Click);
             // 
-            // DirectoryPath
-            // 
-            this.DirectoryPath.HeaderText = "Directory Path";
-            this.DirectoryPath.Name = "DirectoryPath";
-            this.DirectoryPath.Visible = false;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "FileName";
-            this.dataGridViewTextBoxColumn1.HeaderText = "File Name";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.DataPropertyName = "FilePath";
-            this.dataGridViewTextBoxColumn2.HeaderText = "File Path";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.Width = 150;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.DataPropertyName = "Current Classification";
-            this.dataGridViewTextBoxColumn3.HeaderText = "Classification";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.Width = 200;
-            // 
-            // LableId
-            // 
-            this.LableId.HeaderText = "Lable ID";
-            this.LableId.Name = "LableId";
-            this.LableId.Width = 150;
-            // 
             // btnOpenInFolder
             // 
             this.btnOpenInFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -304,11 +272,93 @@
             this.btnOpenOutFolder.UseVisualStyleBackColor = true;
             this.btnOpenOutFolder.Click += new System.EventHandler(this.btnOpenOutFolder_Click);
             // 
+            // label6
+            // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(7, 450);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(153, 16);
+            this.label6.TabIndex = 20;
+            this.label6.Text = "Bulk Reclassification";
+            // 
+            // cmbBulkRecl
+            // 
+            this.cmbBulkRecl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cmbBulkRecl.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbBulkRecl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbBulkRecl.FormattingEnabled = true;
+            this.cmbBulkRecl.Location = new System.Drawing.Point(166, 448);
+            this.cmbBulkRecl.Name = "cmbBulkRecl";
+            this.cmbBulkRecl.Size = new System.Drawing.Size(359, 21);
+            this.cmbBulkRecl.TabIndex = 19;
+            // 
+            // btnSet
+            // 
+            this.btnSet.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnSet.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSet.Location = new System.Drawing.Point(531, 447);
+            this.btnSet.Name = "btnSet";
+            this.btnSet.Size = new System.Drawing.Size(82, 23);
+            this.btnSet.TabIndex = 21;
+            this.btnSet.Text = "Set";
+            this.btnSet.UseVisualStyleBackColor = true;
+            this.btnSet.Click += new System.EventHandler(this.btnSet_Click);
+            // 
+            // btnCSV
+            // 
+            this.btnCSV.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCSV.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCSV.Location = new System.Drawing.Point(907, 447);
+            this.btnCSV.Name = "btnCSV";
+            this.btnCSV.Size = new System.Drawing.Size(82, 23);
+            this.btnCSV.TabIndex = 22;
+            this.btnCSV.Text = "CSV";
+            this.btnCSV.UseVisualStyleBackColor = true;
+            this.btnCSV.Click += new System.EventHandler(this.btnCSV_Click);
+            // 
+            // DirectoryPath
+            // 
+            this.DirectoryPath.HeaderText = "Directory Path";
+            this.DirectoryPath.Name = "DirectoryPath";
+            this.DirectoryPath.Visible = false;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "FileName";
+            this.dataGridViewTextBoxColumn1.HeaderText = "File Name";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "FileSource";
+            this.dataGridViewTextBoxColumn2.HeaderText = "File Source";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.Width = 150;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.DataPropertyName = "Current Classification";
+            this.dataGridViewTextBoxColumn3.HeaderText = "Classification";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.Width = 200;
+            // 
+            // LableId
+            // 
+            this.LableId.HeaderText = "Lable ID";
+            this.LableId.Name = "LableId";
+            this.LableId.Width = 150;
+            // 
             // ScanFiles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1089, 482);
+            this.Controls.Add(this.btnCSV);
+            this.Controls.Add(this.btnSet);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.cmbBulkRecl);
             this.Controls.Add(this.btnOpenOutFolder);
             this.Controls.Add(this.btnOpenInFolder);
             this.Controls.Add(this.Clear);
@@ -356,12 +406,16 @@
         private System.ComponentModel.BackgroundWorker backgroundWorker;
         private System.ComponentModel.BackgroundWorker bgwApplyLable;
         private System.Windows.Forms.Button Clear;
+        private System.Windows.Forms.Button btnOpenInFolder;
+        private System.Windows.Forms.Button btnOpenOutFolder;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox cmbBulkRecl;
+        private System.Windows.Forms.Button btnSet;
+        private System.Windows.Forms.Button btnCSV;
         private System.Windows.Forms.DataGridViewTextBoxColumn DirectoryPath;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn LableId;
-        private System.Windows.Forms.Button btnOpenInFolder;
-        private System.Windows.Forms.Button btnOpenOutFolder;
     }
 }

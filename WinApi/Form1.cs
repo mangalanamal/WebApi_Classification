@@ -25,6 +25,7 @@ namespace WinApi
     {
         List<ClassificationDetails> cd = new List<ClassificationDetails>();
         List<OwnerDetailsModel> owner = new List<OwnerDetailsModel>();
+        List<VoilationModel> response = new List<VoilationModel>();
         DataContext db = new DataContext();
         public Form1(List<OwnerDetailsModel> ownerDetail)
         {
@@ -33,6 +34,8 @@ namespace WinApi
         }
         private void Form1_Load(object sender, EventArgs e)
         {
+
+
             if (owner.Count > 0)
             {
                 FillClassificationList();
@@ -53,6 +56,7 @@ namespace WinApi
             {
                 MessageBox.Show("Please sign in before accessing this form", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+            cmbSortByName.SelectedIndex = 0;
         }
         private void FillClassificationList()
         {      
@@ -178,13 +182,8 @@ namespace WinApi
             }
             else if (e.Result != null)
             {
-                List<VoilationModel> response = (List<VoilationModel>)e.Result;
-                progressBar.Minimum = 0;
-                progressBar.Maximum = response.Count;
-                pictureBox.Visible = false;              
-                dataGridView1.DataSource = response.ToList();
-                dataGridView1.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
-                progressBar.Value = response.Count;
+                response = (List<VoilationModel>)e.Result;
+                FillGrid(response.OrderBy(x=> x.Name).ToList());
             }
             else
             {
@@ -250,5 +249,111 @@ namespace WinApi
                 MessageBox.Show("No Record To Export !!!", "Info");
             }
         }
+
+        private void btnFilter_Click(object sender, EventArgs e)
+        {
+            if (response.Count > 0)
+            {              
+                List<VoilationModel> flt = new List<VoilationModel>();
+                
+                if (cmbSortByName.Text == "File Name")
+                {
+                    if (rbtnDesc.Checked)
+                    {
+                        flt = response.OrderByDescending(x => x.Name).ToList();
+                    }
+                    else
+                    {
+                        flt=response.OrderBy(x => x.Name).ToList();
+                    }
+                }
+                else if (cmbSortByName.Text == "File Source")
+                {
+                    if (rbtnDesc.Checked)
+                    {
+                        flt = response.OrderByDescending(x => x.FilePath).ToList(); ;
+                    }
+                    else
+                    {
+                        flt = response.OrderBy(x => x.FilePath).ToList();
+                    }
+                }
+                else if (cmbSortByName.Text == "Created Date")
+                {
+                    if (rbtnDesc.Checked)
+                    {
+                        flt = response.OrderByDescending(x => x.CreatedDate).ToList();
+                    }
+                    else
+                    {
+                        flt = response.OrderBy(x => x.CreatedDate).ToList();
+                    }
+                }
+                else if (cmbSortByName.Text == "Classification")
+                {
+                    if (rbtnDesc.Checked)
+                    {
+                        flt = response.OrderByDescending(x => x.Classification).ToList();
+                    }
+                    else
+                    {
+                        flt = response.OrderBy(x => x.Classification).ToList();
+                    }
+                }
+                else if (cmbSortByName.Text == "Link")
+                {
+                    if (rbtnDesc.Checked)
+                    {
+                        flt = response.OrderByDescending(x => x.AlternateLink).ToList();
+                    }
+                    else
+                    {
+                        flt = response.OrderBy(x => x.AlternateLink).ToList();
+                    }
+                }
+                else
+                {
+                    flt = response.OrderBy(x => x.Name).ToList();
+                }
+
+                if (flt.Count > 0)
+                {
+                    FillGrid(flt);
+                }
+                else
+                {
+                    dataGridView1.Rows.Clear();
+                }
+               
+            }
+        }
+
+        private void FillGrid(List<VoilationModel> vm)
+        {
+            progressBar.Minimum = 0;
+            progressBar.Value = 0;
+            progressBar.Maximum = vm.Count;
+            pictureBox.Visible = false;
+            dataGridView1.Rows.Clear();
+            foreach (var i in vm)
+            {
+                dataGridView1.Rows.Add(
+                    i.Name,
+                    i.OwnerName,
+                    i.AppName,
+                    i.AlternateLink,
+                    i.CreatedDate,
+                    i.FilePath,
+                    i.Classification,
+                    i.ClassificationId
+                    );
+                progressBar.Value += 1;
+            }
+
+            //dataGridView1.DataSource = vm.ToList();
+            //dataGridView1.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
+            //progressBar.Value = response.Count;
+        }
+
     }
 }
