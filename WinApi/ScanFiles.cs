@@ -14,6 +14,7 @@ using System.Configuration;
 using System.Diagnostics;
 using WinApi.DBContext;
 using WinApi.Models.SQLiteModels;
+using System.Data.Entity;
 
 namespace WinApi
 {
@@ -43,11 +44,82 @@ namespace WinApi
     
         private void ScanFiles_Load(object sender, EventArgs e)
         {
-            FillClassificationList();
+            //FillClassificationList();
+         
+            //FillCmbFilter();
+            if (!formLoadBackgroundWorker.IsBusy)
+            {
+                formLoadBackgroundWorker.RunWorkerAsync();
+            } 
             DGVTableColumns();
-            FillCmbFilter();
         }
 
+        private void RefreshClassifications()
+        {
+            // Create ApplicationInfo, setting the clientID from Azure AD App Registration as the ApplicationId
+            // If any of these values are not set API throws BadInputException.
+            ApplicationInfo appInfo = new ApplicationInfo()
+            {
+                // ApplicationId should ideally be set to the same ClientId found in the Azure AD App Registration.
+                // This ensures that the clientID in AAD matches the AppId reported in AIP Analytics.
+                ApplicationId = clientId,
+                ApplicationName = appName,
+                ApplicationVersion = appVersion
+            };
+            // Initialize Action class, passing in AppInfo.
+            Action action = new Action(appInfo);
+            // List all labels available to the engine created in Action
+            IEnumerable<Microsoft.InformationProtection.Label> labels = action.ListLabels();
+            // Enumerate parent and child labels and print name/ID. 
+            List<ClassificationDetails> cd = new List<ClassificationDetails>();
+            List<ClassificationDetails> cdlist = db.ClassificationDetails.OrderBy(x => x.Name).ToList();
+            foreach (var label in labels)
+            {
+                if (label.Children.Count > 0)
+                {
+                    foreach (Microsoft.InformationProtection.Label child in label.Children)
+                    {
+                        if (cdlist.Count > 0)
+                        {
+                            if (!cdlist.Any(x => x.Id == child.Id))
+                            {
+                                ClassificationDetails obj = new ClassificationDetails();
+                                obj.Id = child.Id;
+                                obj.Name = label.Name.ToUpper() + "-" + child.Name.ToUpper();
+                                cd.Add(obj);
+                            }
+                        }
+                        else
+                        {
+                            ClassificationDetails obj = new ClassificationDetails();
+                            obj.Id = child.Id;
+                            obj.Name = label.Name.ToUpper() + " - " + child.Name.ToUpper();
+                            cd.Add(obj);
+                        }
+                    }
+                }
+            }
+
+            if (cd.Count > 0)
+            {
+                using (var ctx = new DataContext())
+                {
+                    using (DbContextTransaction tran = ctx.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            ctx.ClassificationDetails.AddRange(cd);
+                            ctx.SaveChangesAsync();
+                            tran.Commit();
+                        }
+                        catch (Exception ex)
+                        {
+                            tran.Rollback();
+                        }
+                    }
+                }
+            }
+        }
         private void DGVTableColumns()
         {
             //Add a CheckBox Column to the DataGridView Header Cell.
@@ -618,7 +690,7 @@ namespace WinApi
                 string[] outputCsv = new string[al.Count + 1];
 
                 columnNames += "File Name" + ",";
-                columnNames += "File Path " + ",";
+                columnNames += "File Source " + ",";
                 columnNames += "Classification" + ",";
                 columnNames += "Lable ID" + ",";
                 columnNames += "Reclassification" + ",";
@@ -627,16 +699,16 @@ namespace WinApi
                 columnNames += "Create Date & Time" + ",";
                 outputCsv[0] += columnNames;
 
-                for (int i = 1; i < al.Count; i++)
+                for (int i = 1; i < (al.Count + 1); i++)
                 {
                     //foreach (var r in al)
                     //{
-                        outputCsv[i] += al[i].FileName + ",";
-                        outputCsv[i] += al[i].FilePath + ",";
-                        outputCsv[i] += al[i].Classification + ",";
-                        outputCsv[i] += al[i].ID + ",";
-                        outputCsv[i] += al[i].Reclassification + ",";
-                        outputCsv[i] += al[i].ReclassificationId + ",";
+                        outputCsv[i] += al[i-1].FileName + ",";
+                        outputCsv[i] += al[i-1].FilePath + ",";
+                        outputCsv[i] += al[i-1].Classification + ",";
+                        outputCsv[i] += al[i-1].ID + ",";
+                        outputCsv[i] += al[i-1].Reclassification + ",";
+                        outputCsv[i] += al[i - 1].ReclassificationId + ",";
                         outputCsv[i] += OutputFilePath + ",";
                         outputCsv[i] += DateTime.Now.ToString("yyyy-MM-dd hh:mm") + ",";
                     //}
@@ -797,6 +869,18 @@ namespace WinApi
             {
                 MessageBox.Show("No Record To Export !!!", "Info");
             }
+        }
+
+        private void formLoadBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        { 
+            RefreshClassifications();  
+        }
+
+        private void formLoadBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            //DGVTableColumns();
+            FillClassificationList();     
+            FillCmbFilter(); 
         }
     }
 }

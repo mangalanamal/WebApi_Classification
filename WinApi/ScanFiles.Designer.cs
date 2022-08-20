@@ -37,6 +37,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.btnScan = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.DirectoryPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LableId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.btnClose = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
@@ -52,11 +57,7 @@
             this.cmbBulkRecl = new System.Windows.Forms.ComboBox();
             this.btnSet = new System.Windows.Forms.Button();
             this.btnCSV = new System.Windows.Forms.Button();
-            this.DirectoryPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.LableId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.formLoadBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
@@ -156,6 +157,38 @@
             this.dataGridView1.Size = new System.Drawing.Size(1065, 341);
             this.dataGridView1.TabIndex = 8;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            // 
+            // DirectoryPath
+            // 
+            this.DirectoryPath.HeaderText = "Directory Path";
+            this.DirectoryPath.Name = "DirectoryPath";
+            this.DirectoryPath.Visible = false;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "FileName";
+            this.dataGridViewTextBoxColumn1.HeaderText = "File Name";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "FileSource";
+            this.dataGridViewTextBoxColumn2.HeaderText = "File Source";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.Width = 150;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.DataPropertyName = "Current Classification";
+            this.dataGridViewTextBoxColumn3.HeaderText = "Classification";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.Width = 200;
+            // 
+            // LableId
+            // 
+            this.LableId.HeaderText = "Lable ID";
+            this.LableId.Name = "LableId";
+            this.LableId.Width = 150;
             // 
             // progressBar
             // 
@@ -318,37 +351,10 @@
             this.btnCSV.UseVisualStyleBackColor = true;
             this.btnCSV.Click += new System.EventHandler(this.btnCSV_Click);
             // 
-            // DirectoryPath
+            // formLoadBackgroundWorker
             // 
-            this.DirectoryPath.HeaderText = "Directory Path";
-            this.DirectoryPath.Name = "DirectoryPath";
-            this.DirectoryPath.Visible = false;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "FileName";
-            this.dataGridViewTextBoxColumn1.HeaderText = "File Name";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.DataPropertyName = "FileSource";
-            this.dataGridViewTextBoxColumn2.HeaderText = "File Source";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.Width = 150;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.DataPropertyName = "Current Classification";
-            this.dataGridViewTextBoxColumn3.HeaderText = "Classification";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.Width = 200;
-            // 
-            // LableId
-            // 
-            this.LableId.HeaderText = "Lable ID";
-            this.LableId.Name = "LableId";
-            this.LableId.Width = 150;
+            this.formLoadBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.formLoadBackgroundWorker_DoWork);
+            this.formLoadBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.formLoadBackgroundWorker_RunWorkerCompleted);
             // 
             // ScanFiles
             // 
@@ -417,5 +423,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn LableId;
+        private System.ComponentModel.BackgroundWorker formLoadBackgroundWorker;
     }
 }
