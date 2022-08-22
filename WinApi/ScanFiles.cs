@@ -85,7 +85,7 @@ namespace WinApi
                             {
                                 ClassificationDetails obj = new ClassificationDetails();
                                 obj.Id = child.Id;
-                                obj.Name = label.Name.ToUpper() + "-" + child.Name.ToUpper();
+                                obj.Name = label.Name.ToUpper() + "/" + child.Name.ToUpper();
                                 cd.Add(obj);
                             }
                         }
@@ -93,7 +93,7 @@ namespace WinApi
                         {
                             ClassificationDetails obj = new ClassificationDetails();
                             obj.Id = child.Id;
-                            obj.Name = label.Name.ToUpper() + " - " + child.Name.ToUpper();
+                            obj.Name = label.Name.ToUpper() + " / " + child.Name.ToUpper();
                             cd.Add(obj);
                         }
                     }
@@ -336,14 +336,7 @@ namespace WinApi
                     label4.Text = "";
                     if (!string.IsNullOrEmpty(label3.Text))
                     {
-                        if ( label3.Text != fbd.SelectedPath)
-                        {
-                         label4.Text = fbd.SelectedPath;
-                        }
-                        else
-                        {
-                            MessageBox.Show("Files output folder path cannot be the same files input folder path.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
+                        label4.Text = fbd.SelectedPath;
                     }
                     else
                     {
