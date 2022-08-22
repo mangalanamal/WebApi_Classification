@@ -270,7 +270,7 @@ namespace WinApi
                             {
                                 ClassificationDetails obj = new ClassificationDetails();
                                 obj.Id = child.Id;
-                                obj.Name = label.Name.ToUpper() + "-" + child.Name.ToUpper();
+                                obj.Name = label.Name.ToUpper() + "/" + child.Name.ToUpper();
                                 cd.Add(obj);
                             }
                         }
@@ -278,7 +278,7 @@ namespace WinApi
                         {
                             ClassificationDetails obj = new ClassificationDetails();
                             obj.Id = child.Id;
-                            obj.Name = label.Name.ToUpper() + " - " + child.Name.ToUpper();
+                            obj.Name = label.Name.ToUpper() + " / " + child.Name.ToUpper();
                             cd.Add(obj);
                         }
                     }
