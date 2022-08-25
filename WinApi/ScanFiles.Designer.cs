@@ -43,7 +43,6 @@
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LableId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.progressBar = new System.Windows.Forms.ProgressBar();
-            this.btnClose = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.btnOutputFolder = new System.Windows.Forms.Button();
@@ -88,21 +87,21 @@
             // btnApplyLable
             // 
             this.btnApplyLable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnApplyLable.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnApplyLable.Location = new System.Drawing.Point(819, 447);
+            this.btnApplyLable.Font = new System.Drawing.Font("Segoe UI Emoji", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnApplyLable.Location = new System.Drawing.Point(708, 446);
             this.btnApplyLable.Name = "btnApplyLable";
-            this.btnApplyLable.Size = new System.Drawing.Size(82, 23);
+            this.btnApplyLable.Size = new System.Drawing.Size(122, 29);
             this.btnApplyLable.TabIndex = 3;
-            this.btnApplyLable.Text = "Apply Lable";
+            this.btnApplyLable.Text = "Lable Files";
             this.btnApplyLable.UseVisualStyleBackColor = true;
             this.btnApplyLable.Click += new System.EventHandler(this.btnApplyLable_Click);
             // 
             // button2
             // 
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.Font = new System.Drawing.Font("Segoe UI Emoji", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button2.Location = new System.Drawing.Point(10, 9);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(107, 23);
+            this.button2.Size = new System.Drawing.Size(131, 28);
             this.button2.TabIndex = 4;
             this.button2.Text = "Input Folder";
             this.button2.UseVisualStyleBackColor = true;
@@ -111,29 +110,29 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(125, 15);
+            this.label2.Font = new System.Drawing.Font("Segoe UI Emoji", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(147, 16);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(135, 13);
+            this.label2.Size = new System.Drawing.Size(158, 17);
             this.label2.TabIndex = 5;
             this.label2.Text = "Input Files Location   :";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(267, 15);
+            this.label3.Font = new System.Drawing.Font("Segoe UI Emoji", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(319, 15);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(0, 13);
+            this.label3.Size = new System.Drawing.Size(0, 15);
             this.label3.TabIndex = 6;
             // 
             // btnScan
             // 
             this.btnScan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnScan.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnScan.Font = new System.Drawing.Font("Segoe UI Emoji", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnScan.Location = new System.Drawing.Point(927, 9);
             this.btnScan.Name = "btnScan";
-            this.btnScan.Size = new System.Drawing.Size(72, 23);
+            this.btnScan.Size = new System.Drawing.Size(72, 25);
             this.btnScan.TabIndex = 7;
             this.btnScan.Text = "Scan";
             this.btnScan.UseVisualStyleBackColor = true;
@@ -194,48 +193,36 @@
             // 
             this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar.Location = new System.Drawing.Point(10, 69);
+            this.progressBar.Location = new System.Drawing.Point(10, 73);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(1065, 23);
+            this.progressBar.Size = new System.Drawing.Size(1065, 19);
             this.progressBar.TabIndex = 9;
-            // 
-            // btnClose
-            // 
-            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClose.Location = new System.Drawing.Point(1003, 9);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(72, 23);
-            this.btnClose.TabIndex = 10;
-            this.btnClose.Text = "Home";
-            this.btnClose.UseVisualStyleBackColor = true;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(267, 43);
+            this.label4.Font = new System.Drawing.Font("Segoe UI Emoji", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(319, 49);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(0, 13);
+            this.label4.Size = new System.Drawing.Size(0, 15);
             this.label4.TabIndex = 13;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(125, 43);
+            this.label5.Font = new System.Drawing.Font("Segoe UI Emoji", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(147, 47);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(136, 13);
+            this.label5.Size = new System.Drawing.Size(160, 17);
             this.label5.TabIndex = 12;
             this.label5.Text = "Output Files Location :";
             // 
             // btnOutputFolder
             // 
-            this.btnOutputFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOutputFolder.Location = new System.Drawing.Point(10, 38);
+            this.btnOutputFolder.Font = new System.Drawing.Font("Segoe UI Emoji", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnOutputFolder.Location = new System.Drawing.Point(10, 43);
             this.btnOutputFolder.Name = "btnOutputFolder";
-            this.btnOutputFolder.Size = new System.Drawing.Size(107, 23);
+            this.btnOutputFolder.Size = new System.Drawing.Size(131, 28);
             this.btnOutputFolder.TabIndex = 11;
             this.btnOutputFolder.Text = "Output Folder";
             this.btnOutputFolder.UseVisualStyleBackColor = true;
@@ -245,9 +232,9 @@
             // 
             this.pictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox.Image")));
-            this.pictureBox.Location = new System.Drawing.Point(1025, 33);
+            this.pictureBox.Location = new System.Drawing.Point(1025, 41);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(50, 34);
+            this.pictureBox.Size = new System.Drawing.Size(50, 26);
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox.TabIndex = 15;
             this.pictureBox.TabStop = false;
@@ -272,22 +259,22 @@
             // Clear
             // 
             this.Clear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.Clear.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Clear.Location = new System.Drawing.Point(995, 447);
+            this.Clear.Font = new System.Drawing.Font("Segoe UI Emoji", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Clear.Location = new System.Drawing.Point(961, 447);
             this.Clear.Name = "Clear";
-            this.Clear.Size = new System.Drawing.Size(82, 23);
+            this.Clear.Size = new System.Drawing.Size(116, 28);
             this.Clear.TabIndex = 16;
-            this.Clear.Text = "Clear";
+            this.Clear.Text = "Reset Screen";
             this.Clear.UseVisualStyleBackColor = true;
             this.Clear.Click += new System.EventHandler(this.Clear_Click);
             // 
             // btnOpenInFolder
             // 
             this.btnOpenInFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOpenInFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOpenInFolder.Location = new System.Drawing.Point(375, 10);
+            this.btnOpenInFolder.Font = new System.Drawing.Font("Segoe UI Emoji", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnOpenInFolder.Location = new System.Drawing.Point(888, 40);
             this.btnOpenInFolder.Name = "btnOpenInFolder";
-            this.btnOpenInFolder.Size = new System.Drawing.Size(131, 23);
+            this.btnOpenInFolder.Size = new System.Drawing.Size(131, 29);
             this.btnOpenInFolder.TabIndex = 17;
             this.btnOpenInFolder.Text = "Open Input Folder";
             this.btnOpenInFolder.UseVisualStyleBackColor = true;
@@ -296,10 +283,10 @@
             // btnOpenOutFolder
             // 
             this.btnOpenOutFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOpenOutFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOpenOutFolder.Location = new System.Drawing.Point(375, 40);
+            this.btnOpenOutFolder.Font = new System.Drawing.Font("Segoe UI Emoji", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnOpenOutFolder.Location = new System.Drawing.Point(751, 40);
             this.btnOpenOutFolder.Name = "btnOpenOutFolder";
-            this.btnOpenOutFolder.Size = new System.Drawing.Size(131, 23);
+            this.btnOpenOutFolder.Size = new System.Drawing.Size(131, 28);
             this.btnOpenOutFolder.TabIndex = 18;
             this.btnOpenOutFolder.Text = "Open Output Folder";
             this.btnOpenOutFolder.UseVisualStyleBackColor = true;
@@ -330,10 +317,10 @@
             // btnSet
             // 
             this.btnSet.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnSet.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSet.Location = new System.Drawing.Point(531, 447);
+            this.btnSet.Font = new System.Drawing.Font("Segoe UI Emoji", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSet.Location = new System.Drawing.Point(531, 444);
             this.btnSet.Name = "btnSet";
-            this.btnSet.Size = new System.Drawing.Size(82, 23);
+            this.btnSet.Size = new System.Drawing.Size(82, 31);
             this.btnSet.TabIndex = 21;
             this.btnSet.Text = "Set";
             this.btnSet.UseVisualStyleBackColor = true;
@@ -342,12 +329,12 @@
             // btnCSV
             // 
             this.btnCSV.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCSV.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCSV.Location = new System.Drawing.Point(907, 447);
+            this.btnCSV.Font = new System.Drawing.Font("Segoe UI Emoji", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCSV.Location = new System.Drawing.Point(836, 446);
             this.btnCSV.Name = "btnCSV";
-            this.btnCSV.Size = new System.Drawing.Size(82, 23);
+            this.btnCSV.Size = new System.Drawing.Size(119, 27);
             this.btnCSV.TabIndex = 22;
-            this.btnCSV.Text = "CSV";
+            this.btnCSV.Text = "Export Results";
             this.btnCSV.UseVisualStyleBackColor = true;
             this.btnCSV.Click += new System.EventHandler(this.btnCSV_Click);
             // 
@@ -372,7 +359,6 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.btnOutputFolder);
-            this.Controls.Add(this.btnClose);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.btnScan);
@@ -404,7 +390,6 @@
         private System.Windows.Forms.Button btnScan;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.ProgressBar progressBar;
-        private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnOutputFolder;

@@ -40,6 +40,8 @@ namespace WinApi
             {
                 FillClassificationList();
                 pictureBox.Visible = true;
+                LoadingData.Visible = true;
+                LoadingData.Text = "Loading Data...";
                 progressBar.Value = 0;
                 if (dataGridView1.Rows.Count > 0)
                 {
@@ -188,6 +190,7 @@ namespace WinApi
             else
             {
                 pictureBox.Visible = false;
+                LoadingData.Visible = false;
                 progressBar.Value = 0;
             }
         }
@@ -334,18 +337,34 @@ namespace WinApi
             progressBar.Value = 0;
             progressBar.Maximum = vm.Count;
             pictureBox.Visible = false;
+            LoadingData.Visible = false;
             dataGridView1.Rows.Clear();
+            var AppSourceValue = "";
             foreach (var i in vm)
             {
+                if (i.AppName.Equals("Microsoft OneDrive for Business"))
+                {
+                    AppSourceValue = "OneDrive";
+                }
+                else if (i.AppName.Equals("Microsoft SharePoint Online"))
+                {
+                    AppSourceValue = "SharePoint";
+                }
+                else
+                {
+                    AppSourceValue = "Unknown";
+                }
+
                 dataGridView1.Rows.Add(
                     i.Name,
-                    i.OwnerName,
-                    i.AppName,
-                    i.AlternateLink,
-                    i.CreatedDate,
-                    i.FilePath,
+                    //i.AppName,
+                    AppSourceValue,
                     i.Classification,
-                    i.ClassificationId
+                    i.CreatedDate,
+                    // i.OwnerName,
+                    i.AlternateLink
+                  //  i.FilePath,
+                  //  i.ClassificationId
                     );
                 progressBar.Value += 1;
             }
@@ -355,5 +374,9 @@ namespace WinApi
             //progressBar.Value = response.Count;
         }
 
+        private void LoadingData_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
