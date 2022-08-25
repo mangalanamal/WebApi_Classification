@@ -30,21 +30,20 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.OwnerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AppName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Link = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CreatedDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FileSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Classification = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ClassificationId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label4 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.Clear = new System.Windows.Forms.Button();
             this.btnCSV = new System.Windows.Forms.Button();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.pictureBox = new System.Windows.Forms.PictureBox();
+            this.LoadingData = new System.Windows.Forms.Label();
+            this.FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AppName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Classification = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CreatedDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Link = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FileSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OwnerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ClassificationId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
@@ -60,122 +59,50 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.FileName,
-            this.OwnerName,
             this.AppName,
-            this.Link,
-            this.CreatedDate,
-            this.FileSource,
             this.Classification,
+            this.CreatedDate,
+            this.Link,
+            this.FileSource,
+            this.OwnerName,
             this.ClassificationId});
-            this.dataGridView1.Location = new System.Drawing.Point(12, 85);
+            this.dataGridView1.Location = new System.Drawing.Point(12, 52);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.Size = new System.Drawing.Size(1065, 361);
             this.dataGridView1.TabIndex = 0;
             // 
-            // FileName
-            // 
-            this.FileName.HeaderText = "File Name";
-            this.FileName.Name = "FileName";
-            this.FileName.ReadOnly = true;
-            // 
-            // OwnerName
-            // 
-            this.OwnerName.HeaderText = "Owner Name";
-            this.OwnerName.Name = "OwnerName";
-            this.OwnerName.ReadOnly = true;
-            // 
-            // AppName
-            // 
-            this.AppName.HeaderText = "App Name";
-            this.AppName.Name = "AppName";
-            this.AppName.ReadOnly = true;
-            // 
-            // Link
-            // 
-            this.Link.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Link.HeaderText = "Link";
-            this.Link.Name = "Link";
-            this.Link.ReadOnly = true;
-            // 
-            // CreatedDate
-            // 
-            this.CreatedDate.HeaderText = "Created Date";
-            this.CreatedDate.Name = "CreatedDate";
-            this.CreatedDate.ReadOnly = true;
-            // 
-            // FileSource
-            // 
-            this.FileSource.HeaderText = "File Source";
-            this.FileSource.Name = "FileSource";
-            this.FileSource.ReadOnly = true;
-            // 
-            // Classification
-            // 
-            this.Classification.HeaderText = "Classification";
-            this.Classification.Name = "Classification";
-            this.Classification.ReadOnly = true;
-            // 
-            // ClassificationId
-            // 
-            this.ClassificationId.HeaderText = "Classification Id";
-            this.ClassificationId.Name = "ClassificationId";
-            this.ClassificationId.ReadOnly = true;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(12, 9);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(236, 20);
-            this.label4.TabIndex = 11;
-            this.label4.Text = "Fetch Record From Web Api";
-            // 
-            // button1
-            // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(995, 27);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(82, 23);
-            this.button1.TabIndex = 12;
-            this.button1.Text = "Home";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // progressBar
             // 
             this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar.Location = new System.Drawing.Point(12, 56);
+            this.progressBar.Location = new System.Drawing.Point(0, 23);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(1065, 23);
+            this.progressBar.Size = new System.Drawing.Size(1088, 23);
             this.progressBar.TabIndex = 14;
             // 
             // Clear
             // 
             this.Clear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.Clear.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Clear.Location = new System.Drawing.Point(995, 452);
+            this.Clear.Font = new System.Drawing.Font("Segoe UI Emoji", 11.25F, System.Drawing.FontStyle.Bold);
+            this.Clear.Location = new System.Drawing.Point(957, 419);
             this.Clear.Name = "Clear";
-            this.Clear.Size = new System.Drawing.Size(82, 23);
+            this.Clear.Size = new System.Drawing.Size(114, 34);
             this.Clear.TabIndex = 19;
-            this.Clear.Text = "Clear";
+            this.Clear.Text = "Reset Screen";
             this.Clear.UseVisualStyleBackColor = true;
             this.Clear.Click += new System.EventHandler(this.Clear_Click);
             // 
             // btnCSV
             // 
             this.btnCSV.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCSV.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCSV.Location = new System.Drawing.Point(909, 452);
+            this.btnCSV.Font = new System.Drawing.Font("Segoe UI Emoji", 11.25F, System.Drawing.FontStyle.Bold);
+            this.btnCSV.Location = new System.Drawing.Point(810, 419);
             this.btnCSV.Name = "btnCSV";
-            this.btnCSV.Size = new System.Drawing.Size(82, 23);
+            this.btnCSV.Size = new System.Drawing.Size(141, 34);
             this.btnCSV.TabIndex = 18;
-            this.btnCSV.Text = "CSV";
+            this.btnCSV.Text = "Export Results";
             this.btnCSV.UseVisualStyleBackColor = true;
             this.btnCSV.Click += new System.EventHandler(this.btnCSV_Click);
             // 
@@ -191,13 +118,76 @@
             // 
             this.pictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox.Image")));
-            this.pictureBox.Location = new System.Drawing.Point(947, 12);
+            this.pictureBox.Location = new System.Drawing.Point(1019, 0);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(42, 38);
+            this.pictureBox.Size = new System.Drawing.Size(28, 20);
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox.TabIndex = 20;
             this.pictureBox.TabStop = false;
             this.pictureBox.Visible = false;
+            // 
+            // LoadingData
+            // 
+            this.LoadingData.AutoSize = true;
+            this.LoadingData.Font = new System.Drawing.Font("Segoe UI Emoji", 11.25F, System.Drawing.FontStyle.Bold);
+            this.LoadingData.Location = new System.Drawing.Point(846, 0);
+            this.LoadingData.Name = "LoadingData";
+            this.LoadingData.Size = new System.Drawing.Size(56, 20);
+            this.LoadingData.TabIndex = 21;
+            this.LoadingData.Text = "label1";
+            this.LoadingData.Click += new System.EventHandler(this.LoadingData_Click);
+            // 
+            // FileName
+            // 
+            this.FileName.HeaderText = "File Name";
+            this.FileName.Name = "FileName";
+            this.FileName.ReadOnly = true;
+            // 
+            // AppName
+            // 
+            this.AppName.HeaderText = "Source";
+            this.AppName.Name = "AppName";
+            this.AppName.ReadOnly = true;
+            // 
+            // Classification
+            // 
+            this.Classification.HeaderText = "Classification";
+            this.Classification.Name = "Classification";
+            this.Classification.ReadOnly = true;
+            // 
+            // CreatedDate
+            // 
+            this.CreatedDate.HeaderText = "Created Date";
+            this.CreatedDate.Name = "CreatedDate";
+            this.CreatedDate.ReadOnly = true;
+            // 
+            // Link
+            // 
+            this.Link.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Link.HeaderText = "Link";
+            this.Link.Name = "Link";
+            this.Link.ReadOnly = true;
+            // 
+            // FileSource
+            // 
+            this.FileSource.HeaderText = "File Source";
+            this.FileSource.Name = "FileSource";
+            this.FileSource.ReadOnly = true;
+            this.FileSource.Visible = false;
+            // 
+            // OwnerName
+            // 
+            this.OwnerName.HeaderText = "Owner Name";
+            this.OwnerName.Name = "OwnerName";
+            this.OwnerName.ReadOnly = true;
+            this.OwnerName.Visible = false;
+            // 
+            // ClassificationId
+            // 
+            this.ClassificationId.HeaderText = "Classification Id";
+            this.ClassificationId.Name = "ClassificationId";
+            this.ClassificationId.ReadOnly = true;
+            this.ClassificationId.Visible = false;
             // 
             // Form1
             // 
@@ -205,13 +195,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1089, 482);
+            this.Controls.Add(this.LoadingData);
             this.Controls.Add(this.Clear);
             this.Controls.Add(this.btnCSV);
             this.Controls.Add(this.progressBar);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.button1);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -225,20 +214,19 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.Button Clear;
         private System.Windows.Forms.Button btnCSV;
         private System.ComponentModel.BackgroundWorker backgroundWorker;
         private System.Windows.Forms.PictureBox pictureBox;
+        private System.Windows.Forms.Label LoadingData;
         private System.Windows.Forms.DataGridViewTextBoxColumn FileName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn OwnerName;
         private System.Windows.Forms.DataGridViewTextBoxColumn AppName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Link;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CreatedDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FileSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn Classification;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CreatedDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Link;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FileSource;
+        private System.Windows.Forms.DataGridViewTextBoxColumn OwnerName;
         private System.Windows.Forms.DataGridViewTextBoxColumn ClassificationId;
     }
 }

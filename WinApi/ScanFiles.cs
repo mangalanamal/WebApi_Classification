@@ -27,6 +27,8 @@ namespace WinApi
         CheckBox headerCheckBox = new CheckBox();
         List<TableDetailsModel> TableDetails = new List<TableDetailsModel>();
         DataContext db = new DataContext();
+        
+        static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         ApplicationInfo appInfo = new ApplicationInfo()
         {
             // ApplicationId should ideally be set to the same ClientId found in the Azure AD App Registration.
@@ -38,14 +40,14 @@ namespace WinApi
       
         public ScanFiles()
         {
+
             InitializeComponent();
-             
         }
     
         private void ScanFiles_Load(object sender, EventArgs e)
         {
             //FillClassificationList();
-         
+            log.Info("test");
             //FillCmbFilter();
             if (!formLoadBackgroundWorker.IsBusy)
             {
@@ -247,7 +249,8 @@ namespace WinApi
         private void btnScan_Click(object sender, EventArgs e)
         {
             cmbFilter.Enabled = false;
-            if (!string.IsNullOrEmpty(label3.Text) && !string.IsNullOrEmpty(label4.Text))
+            // if (!string.IsNullOrEmpty(label3.Text) && !string.IsNullOrEmpty(label4.Text))
+            if (!string.IsNullOrEmpty(label3.Text))
             {
                 pictureBox.Visible = true;
                 progressBar.Value = 0;
@@ -268,7 +271,8 @@ namespace WinApi
         public static List<FileModel> GetFiles(List<string> DirectoriesList)
         {
             List<FileModel> fls = new List<FileModel>();
-            string[] fe = { ".docx", ".doc", ".ppt", ".pptx", ".xls", ".xlsx" };
+            //  string[] fe = { ".docx", ".doc", ".ppt", ".pptx", ".xls", ".xlsx",".jpg" };
+            string[] fe = { ".mpp",".mpt",".pub",".xps",".oxps",".jpg", ".jpe", ".jpeg", ".jif", ".jfif", ".jfi", ".png", ".tif", ".tiff", ".dwfx",".psd",".dng",".doc",".docm",".docx",".dot",".dotm",".dotx", ".potm",".potx",".pps",".ppsm",".ppsx",".ppt",".pptm",".pptx",".vdw",".vsd",".vsdm",".vsdx",".vss",".vssm",".vst",".vstm",".vssx",".vstx",".xls",".xlsb",".xlt",".xlsm",".xlsx",".xltm",".xltx" };
             foreach (var d in DirectoriesList)
             {
                 if (!d.ToString().Contains("System Volume Information") &&
@@ -347,11 +351,19 @@ namespace WinApi
         }
         private void btnApplyLable_Click(object sender, EventArgs e)
         {
-            pictureBox.Visible = true;
-            progressBar.Value = 0;
-            if (!bgwApplyLable.IsBusy)
+            if (!string.IsNullOrEmpty(label3.Text) && !string.IsNullOrEmpty(label4.Text))
             {
-                bgwApplyLable.RunWorkerAsync();
+                pictureBox.Visible = true;
+                progressBar.Value = 0;
+                if (!bgwApplyLable.IsBusy)
+                {
+                    bgwApplyLable.RunWorkerAsync();
+                }
+            }
+            else
+            {
+
+                MessageBox.Show("Please Specify the OutPut Folder before Applying the Label.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
